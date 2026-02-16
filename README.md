@@ -131,7 +131,21 @@ src/
 - ✅ **Export de dictées au format Markdown (.md)**
 - ✅ **Import de dictées depuis fichiers Markdown**
 - ✅ **Import depuis services cloud (CodiMD, Dropbox, Google Drive)**
-- 🔜 Migration anciens liens (Sprint 8)
+- ✅ **Migration anciens liens**
+
+## Migration depuis l'ancienne version
+
+Si vous avez créé des dictées sur **micetf.fr/dictee**, vous pouvez les migrer facilement :
+
+1. Retrouvez les liens sauvegardés de vos anciennes dictées
+2. Dans la bibliothèque, cliquez sur "Migrer ancien lien"
+3. Collez l'URL complète
+4. Vérifiez l'aperçu des phrases décodées
+5. Importez dans votre bibliothèque locale
+
+**Format supporté** : URLs avec paramètres `tl`, `titre` et `d[1]`, `d[2]`, etc.
+
+**Note** : Seules les dictées dont vous avez conservé le lien peuvent être migrées.
 
 ## Services cloud supportés
 
@@ -167,10 +181,9 @@ Voir [docs/FORMAT_MARKDOWN.md](docs/FORMAT_MARKDOWN.md) pour la documentation co
 - **Sprint 5** : Lecteur de dictée avec synthèse vocale
 - **Sprint 6** : Import/export fichiers Markdown
 - **Sprint 7** : Import depuis cloud (CodiMD, Dropbox, etc.)
+- **Sprint 8** : Migration anciens liens micetf.fr/dictee
 
 ### À venir
-
-- **Sprint 8** : Migration anciens liens micetf.fr/dictee
 
 ## Contribution
 

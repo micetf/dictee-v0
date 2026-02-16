@@ -4,6 +4,35 @@ Toutes les modifications notables du projet seront documentées ici.
 
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/).
 
+## [Sprint 8] - 2026-02-16
+
+### Ajouté
+
+- Service de migration legacy (`services/legacyImport.js`) :
+    - Décodage des phrases encodées en codes ASCII (format d[1]=66|111|...)
+    - Normalisation des codes langue legacy vers BCP 47
+    - Décodage des titres URL-encodés
+    - Validation du format URL legacy
+    - Détection automatique d'URL legacy
+- Composant `MigrateLegacyModal` :
+    - Saisie et analyse d'URL legacy
+    - Aperçu des phrases décodées avant import
+    - Messages d'erreur contextuels avec format attendu
+    - Aide intégrée pour retrouver les anciennes dictées
+    - Support Ctrl+Entrée pour lancer l'analyse
+
+### Technique
+
+- Parser de query string avec URLSearchParams
+- Décodage String.fromCharCode pour codes ASCII
+- Mapping codes langue legacy → BCP 47
+- Limite de sécurité 100 phrases par URL
+
+### Documentation
+
+- Guide de migration dans README
+- Exemples d'URLs legacy dans la modal
+
 ## [Sprint 7] - 2026-02-16
 
 ### Ajouté

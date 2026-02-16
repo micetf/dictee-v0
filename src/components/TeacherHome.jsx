@@ -5,6 +5,7 @@ import { generateMarkdown } from "../services/markdown";
 import { downloadTextFile, sanitizeFilename } from "../utils/download";
 import ImportMarkdownModal from "./ImportMarkdownModal";
 import ImportCloudModal from "./ImportCloudModal";
+import MigrateLegacyModal from "./MigrateLegacyModal";
 
 /**
  * Page d'accueil de l'enseignant - Bibliothèque de dictées
@@ -19,6 +20,8 @@ function TeacherHome({ onCreateNew, onEdit, onPlay, onBack }) {
     const [searchQuery, setSearchQuery] = useState("");
     const [isImportModalOpen, setIsImportModalOpen] = useState(false);
     const [isImportCloudModalOpen, setIsImportCloudModalOpen] = useState(false);
+    const [isMigrateLegacyModalOpen, setIsMigrateLegacyModalOpen] =
+        useState(false);
 
     // Fonction de rafraîchissement (pour après suppression/modification)
     const refreshDictations = () => {
@@ -122,6 +125,13 @@ function TeacherHome({ onCreateNew, onEdit, onPlay, onBack }) {
                         className="px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
                     >
                         Importer depuis le cloud
+                    </button>
+
+                    <button
+                        onClick={() => setIsMigrateLegacyModalOpen(true)}
+                        className="px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                    >
+                        Migrer ancien lien
                     </button>
 
                     <button
@@ -262,6 +272,14 @@ function TeacherHome({ onCreateNew, onEdit, onPlay, onBack }) {
             <ImportCloudModal
                 isOpen={isImportCloudModalOpen}
                 onClose={() => setIsImportCloudModalOpen(false)}
+                onSuccess={() => {
+                    refreshDictations();
+                }}
+            />
+            {/* Modal migration legacy */}
+            <MigrateLegacyModal
+                isOpen={isMigrateLegacyModalOpen}
+                onClose={() => setIsMigrateLegacyModalOpen(false)}
                 onSuccess={() => {
                     refreshDictations();
                 }}
