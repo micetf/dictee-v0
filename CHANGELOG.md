@@ -4,6 +4,32 @@ Toutes les modifications notables du projet seront documentées ici.
 
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/).
 
+## [Sprint 6] - 2026-02-16
+
+### Ajouté
+
+- Service Markdown (`services/markdown.js`) :
+    - Parsing de fichiers .md avec front matter YAML
+    - Génération de Markdown depuis une dictée
+    - Validation de format
+- Composant `ImportMarkdownModal` :
+    - Sélection de fichier avec aperçu
+    - Validation et messages d'erreur
+    - Import dans la bibliothèque locale
+- Utilitaires de téléchargement (`utils/download.js`) :
+    - Téléchargement de fichiers texte côté client
+    - Nettoyage de noms de fichiers
+- Documentation du format Markdown (`docs/FORMAT_MARKDOWN.md`)
+- Boutons d'export :
+    - Export individuel par dictée
+    - Export groupé (toutes les dictées)
+
+### Technique
+
+- Format compatible avec l'ancien projet micetf.fr/dictee-markdown
+- Encodage UTF-8 pour support multilingue
+- Round-trip garanti (export → import → données identiques)
+
 ## [Sprint 5] - 2026-02-16
 
 ### Ajouté

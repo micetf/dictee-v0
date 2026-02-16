@@ -123,6 +123,21 @@ src/
     - Navigation entre phrases
     - Option d'affichage de la phrase (soutien)
 
+### Mode Enseignant
+
+- ✅ Création et modification de dictées
+- ✅ Suppression de dictées
+- ✅ Recherche dans la bibliothèque
+- ✅ **Export de dictées au format Markdown (.md)**
+- ✅ **Import de dictées depuis fichiers Markdown**
+- 🔜 Import depuis cloud (Sprint 7)
+- 🔜 Migration anciens liens (Sprint 8)
+
+## Format des fichiers
+
+Les dictées sont sauvegardées au format Markdown avec front matter YAML.
+Voir [docs/FORMAT_MARKDOWN.md](docs/FORMAT_MARKDOWN.md) pour la documentation complète.
+
 ## Limitations connues
 
 - Stockage localStorage limité (~5-10 Mo selon navigateurs)
@@ -139,10 +154,10 @@ src/
 - **Sprint 3** : Bibliothèque enseignant avec CRUD
 - **Sprint 4** : Éditeur de dictée avec validation
 - **Sprint 5** : Lecteur de dictée avec synthèse vocale
+- **Sprint 6** : Import/export fichiers Markdown
 
 ### À venir
 
-- **Sprint 6** : Import/export fichiers Markdown
 - **Sprint 7** : Import depuis cloud (CodiMD, Dropbox, etc.)
 - **Sprint 8** : Migration anciens liens micetf.fr/dictee
 

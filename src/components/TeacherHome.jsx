@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { listDictations, deleteDictation } from "../services/storage";
 import DictationCard from "./DictationCard";
+import { generateMarkdown } from "../services/markdown";
+import { downloadTextFile, sanitizeFilename } from "../utils/download";
+import ImportMarkdownModal from "./ImportMarkdownModal";
 
 /**
  * Page d'accueil de l'enseignant - Bibliothèque de dictées
@@ -13,6 +16,7 @@ function TeacherHome({ onCreateNew, onEdit, onPlay, onBack }) {
     });
 
     const [searchQuery, setSearchQuery] = useState("");
+    const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
     // Fonction de rafraîchissement (pour après suppression/modification)
     const refreshDictations = () => {
@@ -35,6 +39,24 @@ function TeacherHome({ onCreateNew, onEdit, onPlay, onBack }) {
             d.sentences.some((s) => s.toLowerCase().includes(query))
         );
     });
+    const handleExport = (dictation) => {
+        try {
+            const markdown = generateMarkdown(dictation);
+            const filename = `${sanitizeFilename(dictation.title) || "dictee"}.md`;
+            downloadTextFile(markdown, filename);
+        } catch (error) {
+            console.error("Erreur export:", error);
+            alert("Erreur lors de l'export : " + error.message);
+        }
+    };
+
+    const handleExportAll = () => {
+        if (dictations.length === 0) {
+            alert("Aucune dictée à exporter");
+            return;
+        }
+        dictations.forEach((d) => handleExport(d));
+    };
 
     return (
         <div className="view-container fade-in">
@@ -85,29 +107,25 @@ function TeacherHome({ onCreateNew, onEdit, onPlay, onBack }) {
                         Nouvelle dictée
                     </button>
 
-                    {/* Boutons import (désactivés pour l'instant) */}
+                    {/* Boutons import  */}
                     <button
-                        disabled
-                        className="px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-400 cursor-not-allowed"
-                        title="Disponible Sprint 6"
+                        onClick={() => setIsImportModalOpen(true)}
+                        className="px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
                     >
                         Importer un fichier
                     </button>
 
                     <button
-                        disabled
-                        className="px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-400 cursor-not-allowed"
-                        title="Disponible Sprint 7"
+                        onClick={handleExportAll}
+                        disabled={dictations.length === 0}
+                        className="px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        title={
+                            dictations.length === 0
+                                ? "Aucune dictée à exporter"
+                                : "Exporter toutes les dictées"
+                        }
                     >
-                        Importer depuis le cloud
-                    </button>
-
-                    <button
-                        disabled
-                        className="px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-400 cursor-not-allowed"
-                        title="Disponible Sprint 8"
-                    >
-                        Migrer ancien lien
+                        Tout exporter
                     </button>
                 </div>
 
@@ -218,10 +236,19 @@ function TeacherHome({ onCreateNew, onEdit, onPlay, onBack }) {
                             onEdit={onEdit}
                             onPlay={onPlay}
                             onDelete={handleDelete}
+                            onExport={handleExport}
                         />
                     ))}
                 </div>
             )}
+            {/* Modal d'import */}
+            <ImportMarkdownModal
+                isOpen={isImportModalOpen}
+                onClose={() => setIsImportModalOpen(false)}
+                onSuccess={() => {
+                    refreshDictations();
+                }}
+            />
         </div>
     );
 }
