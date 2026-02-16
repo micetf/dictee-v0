@@ -1,35 +1,203 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import "./App.css";
+import ModeSelector from "./components/ModeSelector";
+import { listDictations } from "./services/storage";
 
+/**
+ * Composant racine de l'application
+ * Gère la navigation SPA sans router
+ */
 function App() {
-  const [count, setCount] = useState(0)
+    const [mode, setMode] = useState(null); // "teacher" | "student" | null
+    const [view, setView] = useState("home"); // "home" | "teacher" | "student" | "editor" | "player"
+    const [currentDictationId, setCurrentDictationId] = useState(null);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    // Détection paramètres URL pour liens directs (futur import cloud)
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const sourceUrl = params.get("source");
+        const legacyUrl = params.get("legacy");
+
+        if (sourceUrl || legacyUrl) {
+            // TODO Sprint 6+ : import automatique
+            console.log("Import détecté:", { sourceUrl, legacyUrl });
+        }
+    }, []);
+
+    /**
+     * Gère la sélection du mode utilisateur
+     */
+    const handleSelectMode = (selectedMode) => {
+        setMode(selectedMode);
+        setView(selectedMode); // "teacher" ou "student"
+    };
+
+    /**
+     * Navigation vers création de dictée
+     */
+    const handleCreateNew = () => {
+        setCurrentDictationId(null);
+        setView("editor");
+    };
+
+    /**
+     * Navigation vers édition d'une dictée
+     */
+    const handleEdit = (id) => {
+        setCurrentDictationId(id);
+        setView("editor");
+    };
+
+    /**
+     * Navigation vers lecture d'une dictée
+     */
+    const handlePlay = (id) => {
+        setCurrentDictationId(id);
+        setView("player");
+    };
+
+    /**
+     * Retour à la bibliothèque
+     */
+    const handleBack = () => {
+        setCurrentDictationId(null);
+        setView(mode);
+    };
+
+    // Vue : Sélection du mode
+    if (!mode || view === "home") {
+        return (
+            <div className="app-container">
+                <ModeSelector onSelectMode={handleSelectMode} />
+            </div>
+        );
+    }
+
+    // Vue : Mode enseignant (à implémenter Sprint 3)
+    if (view === "teacher") {
+        return (
+            <div className="app-container">
+                <div className="view-container fade-in">
+                    <h1 className="text-2xl font-bold mb-4">Mode Enseignant</h1>
+                    <button
+                        className="px-4 py-2 bg-blue-600 text-white rounded"
+                        onClick={handleCreateNew}
+                    >
+                        Nouvelle dictée (Sprint 3)
+                    </button>
+                    <button
+                        className="ml-2 px-4 py-2 border rounded"
+                        onClick={() => setView("home")}
+                    >
+                        Retour
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    // Vue : Mode élève (à implémenter Sprint 5)
+    if (view === "student") {
+        const dictations = listDictations();
+        return (
+            <div className="app-container">
+                <div className="view-container fade-in">
+                    <h1 className="text-2xl font-bold mb-4">Mes dictées</h1>
+                    {dictations.length === 0 ? (
+                        <p className="text-gray-600">
+                            Aucune dictée disponible pour l'instant.
+                        </p>
+                    ) : (
+                        <ul className="space-y-2">
+                            {dictations.map((d) => (
+                                <li key={d.id}>
+                                    <button
+                                        className="w-full text-left border rounded p-3 hover:bg-gray-100"
+                                        onClick={() => handlePlay(d.id)}
+                                    >
+                                        <div className="font-semibold">
+                                            {d.title || "Sans titre"}
+                                        </div>
+                                        <div className="text-sm text-gray-500">
+                                            {d.sentences.length} phrase(s)
+                                        </div>
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                    <button
+                        className="mt-4 px-4 py-2 border rounded"
+                        onClick={() => setView("home")}
+                    >
+                        Retour
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    // Vue : Éditeur (à implémenter Sprint 4)
+    if (view === "editor") {
+        return (
+            <div className="app-container">
+                <div className="view-container fade-in">
+                    <h1 className="text-2xl font-bold mb-4">
+                        {currentDictationId ? "Modifier" : "Créer"} une dictée
+                    </h1>
+                    <p className="text-gray-600 mb-4">
+                        Sprint 4 - Éditeur à venir
+                    </p>
+                    <button
+                        className="px-4 py-2 border rounded"
+                        onClick={handleBack}
+                    >
+                        Retour
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    // Vue : Lecteur (à implémenter Sprint 5)
+    if (view === "player") {
+        return (
+            <div className="app-container">
+                <div className="view-container fade-in">
+                    <h1 className="text-2xl font-bold mb-4">
+                        Lecteur de dictée
+                    </h1>
+                    <p className="text-gray-600 mb-4">
+                        Sprint 5 - Lecteur à venir
+                    </p>
+                    <button
+                        className="px-4 py-2 border rounded"
+                        onClick={handleBack}
+                    >
+                        Retour
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    // Fallback
+    return (
+        <div className="app-container">
+            <div className="view-container">
+                <p>État inattendu : {view}</p>
+                <button
+                    className="px-4 py-2 border rounded"
+                    onClick={() => {
+                        setView("home");
+                        setMode(null);
+                    }}
+                >
+                    Retour à l'accueil
+                </button>
+            </div>
+        </div>
+    );
 }
 
-export default App
+export default App;
