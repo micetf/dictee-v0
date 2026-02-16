@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { getDictation, saveDictation } from "../services/storage";
 import { createEmptyDictee } from "../domain/dictee";
 import { validateDictation } from "../utils/validation";
+import LanguageSelector from "./LanguageSelector";
+import { DEFAULT_LANGUAGE } from "../utils/languages";
 
 /**
  * Éditeur de dictée - Création et modification
@@ -61,8 +63,8 @@ function EditorView({ dictationId, onBack, onSave }) {
     /**
      * Met à jour la langue
      */
-    const handleLanguageChange = (e) => {
-        setDictation({ ...dictation, language: e.target.value });
+    const handleLanguageChange = (lang) => {
+        setDictation({ ...dictation, language: lang });
         if (errors.language) {
             setErrors({ ...errors, language: null });
         }
@@ -209,54 +211,15 @@ function EditorView({ dictationId, onBack, onSave }) {
 
                     {/* Langue */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Langue (code BCP 47){" "}
-                            <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                            type="text"
+                        <LanguageSelector
                             value={dictation.language}
                             onChange={handleLanguageChange}
-                            placeholder="Ex: fr-FR, en-US, es-ES"
-                            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                                errors.language
-                                    ? "border-red-500"
-                                    : "border-gray-300"
-                            }`}
                         />
                         {errors.language && (
                             <p className="mt-1 text-sm text-red-600">
                                 {errors.language}
                             </p>
                         )}
-                        <details className="mt-2">
-                            <summary className="text-xs text-gray-600 cursor-pointer hover:text-gray-800">
-                                Codes de langue courants
-                            </summary>
-                            <ul className="mt-2 text-xs text-gray-600 space-y-1 pl-4">
-                                <li>
-                                    <strong>fr-FR</strong> : Français (France)
-                                </li>
-                                <li>
-                                    <strong>en-US</strong> : Anglais
-                                    (États-Unis)
-                                </li>
-                                <li>
-                                    <strong>en-GB</strong> : Anglais
-                                    (Royaume-Uni)
-                                </li>
-                                <li>
-                                    <strong>es-ES</strong> : Espagnol (Espagne)
-                                </li>
-                                <li>
-                                    <strong>de-DE</strong> : Allemand
-                                    (Allemagne)
-                                </li>
-                                <li>
-                                    <strong>it-IT</strong> : Italien (Italie)
-                                </li>
-                            </ul>
-                        </details>
                     </div>
 
                     {/* Phrases */}

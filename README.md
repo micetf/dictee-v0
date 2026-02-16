@@ -1,24 +1,25 @@
 # Dictée Markdown - V0
 
-Application web simplifiée pour créer et pratiquer des dictées à l'école primaire.
+Application web pour créer et pratiquer des dictées à l'école primaire (cycles 1 à 3).
 
-## Objectif V0
+**Version 0.10** - Février 2026
 
-Version minimale fonctionnelle sans PWA ni router, centrée sur :
+---
 
-- Bibliothèque locale de dictées (enseignant)
-- Création et modification de dictées avec validation
-- Mode lecture pour les élèves (à venir)
-- Import/export de dictées (à venir)
+## 🎯 Objectif V0
 
-## Stack technique
+Application minimale fonctionnelle centrée sur l'essentiel :
 
-- **React 18** + **Vite 6** : interface et build
-- **Tailwind CSS 4** : styles
-- **localStorage** : stockage local (limite ~50 dictées)
-- **Web Speech API** : synthèse vocale (à venir)
+- ✅ Bibliothèque locale de dictées (enseignant)
+- ✅ Création/modification avec sélection langue adaptative
+- ✅ Lecteur élève avec système d'étoiles et feedback immédiat
+- ✅ Import/export Markdown et cloud
+- ✅ Migration anciennes dictées
+- ✅ Impression résultats personnalisable
 
-## Installation
+---
+
+## 🚀 Installation
 
 ```bash
 # Cloner le projet
@@ -35,189 +36,414 @@ npm run dev
 npm run build
 ```
 
-## Structure du projet
+---
+
+## 🛠️ Stack technique
+
+- **React 18** + **Vite 6** : Interface et build rapide
+- **Tailwind CSS 4** : Styles utilitaires
+- **localStorage** : Stockage local persistant
+- **Web Speech API** : Synthèse vocale multilingue
+- **Aucune dépendance externe** pour le PDF (impression native)
+
+---
+
+## 📁 Structure du projet
 
 ```
 src/
-├── domain/              # Modèles de données
-│   └── dictee.js       # Modèle dictée avec factory
-├── services/            # Services métier
-│   └── storage.js      # CRUD localStorage
-├── components/          # Composants React
+├── domain/                    # Modèles de données
+│   └── dictee.js             # Modèle dictée avec factory
+├── services/                  # Services métier
+│   ├── storage.js            # CRUD localStorage
+│   ├── markdown.js           # Parse/génère Markdown
+│   ├── cloudImport.js        # Import depuis cloud
+│   └── legacyImport.js       # Migration anciennes dictées
+├── hooks/                     # Hooks React personnalisés
+│   ├── useSpeechSynthesis.js # Synthèse vocale
+│   └── useAvailableVoices.js # Détection voix disponibles
+├── components/                # Composants React
 │   ├── ModeSelector.jsx      # Choix enseignant/élève
 │   ├── TeacherHome.jsx       # Bibliothèque enseignant
 │   ├── DictationCard.jsx     # Carte de dictée
-│   └── EditorView.jsx        # Éditeur de dictée
-├── utils/               # Utilitaires
-│   ├── date.js         # Formatage dates
-│   └── validation.js   # Validation dictées
-├── App.jsx             # Composant racine (navigation SPA)
-├── App.css             # Styles application
-└── index.css           # Styles globaux + Tailwind
+│   ├── EditorView.jsx        # Éditeur de dictée
+│   ├── LanguageSelector.jsx  # Sélecteur langue adaptatif
+│   ├── PlayerView.jsx        # Lecteur élève avec étoiles
+│   ├── ResultsView.jsx       # Écran résultats avec impression
+│   ├── VoicesDebugView.jsx   # Diagnostic voix (enseignant)
+│   ├── ImportMarkdownModal.jsx
+│   ├── ImportCloudModal.jsx
+│   └── MigrateLegacyModal.jsx
+├── utils/                     # Utilitaires
+│   ├── date.js               # Formatage dates
+│   ├── validation.js         # Validation dictées
+│   ├── download.js           # Export fichiers
+│   ├── textComparison.js     # Comparaison textes
+│   └── languages.js          # Configuration langues
+├── App.jsx                    # Composant racine (navigation SPA)
+├── App.css                    # Styles application
+└── index.css                  # Styles globaux + Tailwind + print
 ```
 
-## Fonctionnalités actuelles
+---
 
-### Mode Enseignant
+## ✨ Fonctionnalités
 
-- ✅ Sélection du mode (enseignant/élève)
-- ✅ Bibliothèque de dictées avec recherche
-- ✅ Création de dictées (titre, langue BCP 47, phrases)
-- ✅ Modification de dictées existantes
-- ✅ Suppression de dictées avec confirmation
-- ✅ Validation complète des données
+### 👨‍🏫 Mode Enseignant
+
+#### Gestion des dictées
+
+- ✅ Bibliothèque avec recherche full-text
+- ✅ Création/modification/suppression (CRUD complet)
+- ✅ Duplication de dictées
 - ✅ Tri par date de modification
 - ✅ Compteur de phrases en temps réel
-- ✅ Détection des modifications non sauvegardées
-- 🔜 Export au format .md (Sprint 6)
-- 🔜 Import fichiers .md (Sprint 6)
-- 🔜 Import depuis cloud (Sprint 7)
-- 🔜 Migration anciens liens (Sprint 8)
+- ✅ Détection modifications non sauvegardées
 
-### Mode Élève
+#### Sélection de langue intelligente
 
-- ✅ **Lecteur de dictée avec mastéry learning**
-    - Écoute phrase par phrase (synthèse vocale)
-    - Validation obligatoire avant passage phrase suivante
-    - Système d'évaluation à 3 étoiles selon nombre d'essais
-    - Comparaison erreur/correction côte à côte
-    - Messages d'encouragement contextuels
-    - Option "Passer" après 3 échecs
-    - Écran de résultats détaillé avec répartition
-    - **Impression/Export PDF natif personnalisable**
-        - Nom élève, classe, enseignant
-        - Option afficher/masquer tentatives
-        - Mise en page A4 ultra-compacte (1 page pour 15-20 phrases)
-        - Zones de signature
-        - Étoiles ⭐ parfaitement affichées
+- ✅ **Menu déroulant avec drapeaux** (🇫🇷 🇬🇧 🇪🇸 🇩🇪 🇮🇹)
+- ✅ **Détection automatique des langues disponibles** sur le navigateur
+- ✅ Langues indisponibles marquées et désactivées
+- ✅ Détail déroulable des langues avec statut (✓/✗)
+- ✅ Langue par défaut : Français (fr-FR)
 
-## Système d'évaluation
+#### Diagnostic des voix (page dédiée)
 
-**Étoiles par phrase :**
+- ✅ Liste complète des voix installées sur le système
+- ✅ Compatibilité par langue (vert/rouge)
+- ✅ Tableau détaillé : langue, nom, local/cloud
+- ✅ Permet de vérifier avant test en classe
 
-- ⭐⭐⭐ : Phrase juste du premier coup
-- ⭐⭐ : Phrase juste en 2-3 essais
-- ⭐ : Phrase juste après 3+ essais
-- (vide) : Phrase passée sans validation
+#### Import/Export
 
-**Score final :** Somme des étoiles obtenues / (nombre de phrases × 3) × 100
+- ✅ **Export Markdown** (.md) individuel ou groupé
+- ✅ **Import fichiers locaux** (.md)
+- ✅ **Import cloud** : CodiMD, Dropbox, Google Drive
+- ✅ **Migration anciens liens** micetf.fr/dictee (décodage ASCII)
 
-**Principe pédagogique :** Mastéry learning - l'élève doit écrire correctement chaque phrase avant de progresser, avec un maximum de 3 tentatives puis possibilité de passer.
+---
 
-## Utilisation
+### 👦 Mode Élève
+
+#### Lecteur de dictée avec mastéry learning
+
+- ✅ Écoute phrase par phrase (synthèse vocale)
+- ✅ **Validation obligatoire** avant passage phrase suivante
+- ✅ **Maximum 3 tentatives** puis option "Passer"
+- ✅ Comparaison erreur/correction côte à côte
+- ✅ Messages d'encouragement contextuels (3 niveaux)
+- ✅ Alerte si langue non disponible sur l'appareil
+
+#### Système d'évaluation à 3 étoiles
+
+- ⭐⭐⭐ : Phrase juste du **premier coup**
+- ⭐⭐ : Phrase juste en **2-3 essais**
+- ⭐ : Phrase juste après **3+ essais**
+- **(vide)** : Phrase passée sans validation
+
+**Score final** : `(somme étoiles / phrases × 3) × 100`
+
+**Principe pédagogique** : Mastéry learning – l'élève doit réussir chaque phrase avant de progresser, garantissant le passage par la réussite.
+
+#### Écran de résultats détaillé
+
+- ✅ Score total et pourcentage
+- ✅ Répartition visuelle par type d'étoiles (4 cartes)
+- ✅ Détail de toutes les phrases avec historique tentatives
+- ✅ Bouton "Recommencer" pour refaire la dictée
+
+#### Impression/Export PDF natif personnalisable
+
+- ✅ **Impression native** (pas de lib externe, étoiles ⭐ parfaites)
+- ✅ **Modal de personnalisation** :
+    - Nom de l'élève
+    - Classe
+    - Nom de l'enseignant
+    - Option afficher/masquer tentatives
+- ✅ **Mise en page A4 ultra-compacte** :
+    - Marges réduites (10mm)
+    - Polices optimisées (9pt)
+    - 1 page pour 15-20 phrases
+- ✅ **Zones de signature** (élève + enseignant)
+- ✅ En-tête, légende, pied de page
+- ✅ Bouton impression rapide (sans options)
+
+---
+
+## 🌍 Langues supportées
+
+| Langue      | Code  | Disponibilité typique         |
+| ----------- | ----- | ----------------------------- |
+| 🇫🇷 Français | fr-FR | Chrome, Safari, Edge, Firefox |
+| 🇬🇧 Anglais  | en-US | Chrome, Safari, Edge, Firefox |
+| 🇪🇸 Espagnol | es-ES | Chrome, Safari, Edge          |
+| 🇩🇪 Allemand | de-DE | Chrome, Edge                  |
+| 🇮🇹 Italien  | it-IT | Chrome, Edge                  |
+
+> **⚠️ Important** : La disponibilité des langues dépend du **navigateur** et du **système d'exploitation**. Utilisez la page **"Langues disponibles"** dans l'app pour vérifier votre configuration avant un test en classe.
+
+---
+
+## 🌐 Compatibilité navigateurs
+
+### Web Speech API (Synthèse vocale)
+
+- ✅ **Chrome / Edge** : Support complet, toutes les langues
+- ✅ **Safari** : Support complet sur macOS/iOS
+- ⚠️ **Firefox** : Support limité, moins de voix disponibles
+- ❌ **Internet Explorer** : Non supporté
+
+**Recommandation terrain** : **Chrome sur tablettes** pour meilleur support multilingue.
+
+### Impression PDF
+
+- ✅ Tous les navigateurs modernes (Chrome, Safari, Edge, Firefox)
+- ✅ "Enregistrer en PDF" natif dans la boîte d'impression
+
+---
+
+## 📖 Utilisation
 
 ### Créer une dictée
 
-1. Lancer l'application et choisir "Je suis enseignant"
-2. Cliquer sur "Nouvelle dictée"
+1. Lancer l'application → **"Je suis enseignant"**
+2. Cliquer sur **"Nouvelle dictée"**
 3. Remplir le formulaire :
-    - **Titre** : nom de la dictée (obligatoire, max 100 caractères)
-    - **Langue** : code BCP 47 (ex: fr-FR, en-US, es-ES)
-    - **Phrases** : une phrase par ligne (min 1, max 100)
-4. Cliquer sur "Enregistrer"
+    - **Titre** : nom de la dictée (max 100 caractères)
+    - **Langue** : sélectionner dans le menu déroulant
+    - **Phrases** : une phrase par ligne (min 1, max 100, max 500 car/phrase)
+4. Cliquer sur **"Enregistrer"**
 
-### Modifier une dictée
+### Vérifier les langues disponibles
 
-1. Dans la bibliothèque, cliquer sur "Modifier"
-2. Effectuer les modifications
-3. Cliquer sur "Enregistrer" ou "Annuler"
+1. Mode enseignant → cliquer sur **"Langues disponibles"**
+2. Consulter la liste des voix détectées
+3. Vérifier que la langue souhaitée est disponible (✓ vert)
 
-### Supprimer une dictée
+### Faire une dictée (élève)
 
-1. Dans la bibliothèque, cliquer sur "Supprimer"
-2. Confirmer la suppression
+1. Lancer l'application → **"Je suis élève"**
+2. Choisir une dictée dans la liste
+3. **Workflow** :
+    - Cliquer sur "Écouter la phrase"
+    - Écrire ce qui est entendu
+    - Cliquer sur "Valider ma phrase"
+    - Si correct : phrase suivante automatique
+    - Si incorrect : voir la correction, réessayer ou passer
+4. À la fin : voir les résultats et imprimer si besoin
 
-### Codes de langue courants
+### Imprimer les résultats
 
-- **fr-FR** : Français (France)
-- **en-US** : Anglais (États-Unis)
-- **en-GB** : Anglais (Royaume-Uni)
-- **es-ES** : Espagnol (Espagne)
-- **de-DE** : Allemand (Allemagne)
-- **it-IT** : Italien (Italie)
+1. À l'écran de résultats, cliquer sur **"Imprimer / PDF"**
+2. Remplir les options (nom élève, classe, enseignant)
+3. Choisir d'afficher ou non les tentatives
+4. Cliquer sur **"Imprimer"**
+5. Dans la boîte de dialogue :
+    - **Imprimer sur papier** : choisir l'imprimante
+    - **Sauver en PDF** : sélectionner "Enregistrer en PDF"
 
-### Mode Élève
+---
 
-- ✅ Liste des dictées disponibles (bibliothèque locale)
-- ✅ Lecteur de dictée avec :
-    - Lecture phrase par phrase
-    - Synthèse vocale (navigateur compatible)
-    - Saisie de la phrase par l'élève
-    - Correction simple (exact / différent)
-    - Navigation entre phrases
-    - Option d'affichage de la phrase (soutien)
+## 📥 Import de dictées
 
-### Mode Enseignant
+### Depuis fichier local (.md)
 
-- ✅ Création et modification de dictées
-- ✅ Suppression de dictées
-- ✅ Recherche dans la bibliothèque
-- ✅ **Export de dictées au format Markdown (.md)**
-- ✅ **Import de dictées depuis fichiers Markdown**
-- ✅ **Import depuis services cloud (CodiMD, Dropbox, Google Drive)**
-- ✅ **Migration anciens liens**
+1. Bibliothèque → **"Importer"** → **"Fichier local"**
+2. Sélectionner un ou plusieurs fichiers `.md`
+3. Vérifier l'aperçu
+4. Cliquer sur **"Importer"**
 
-## Migration depuis l'ancienne version
+### Depuis cloud (CodiMD, Dropbox, Drive)
 
-Si vous avez créé des dictées sur **micetf.fr/dictee**, vous pouvez les migrer facilement :
+1. Bibliothèque → **"Importer"** → **"Cloud"**
+2. Coller l'URL du fichier
+3. Cliquer sur **"Récupérer"**
+4. Vérifier l'aperçu
+5. Cliquer sur **"Importer"**
 
-1. Retrouvez les liens sauvegardés de vos anciennes dictées
-2. Dans la bibliothèque, cliquez sur "Migrer ancien lien"
-3. Collez l'URL complète
-4. Vérifiez l'aperçu des phrases décodées
-5. Importez dans votre bibliothèque locale
+**Services supportés** :
 
-**Format supporté** : URLs avec paramètres `tl`, `titre` et `d[1]`, `d[2]`, etc.
+- CodiMD / HedgeDoc (lien de partage)
+- Dropbox (lien public)
+- Google Drive (fichier en accès public)
+- Tout lien direct vers un `.md`
 
-**Note** : Seules les dictées dont vous avez conservé le lien peuvent être migrées.
+> **Note CORS** : Certains services bloquent les requêtes cross-domain. CodiMD fonctionne généralement sans problème.
 
-## Services cloud supportés
+### Migration anciens liens (micetf.fr/dictee)
 
-L'application peut importer des dictées depuis :
+Si vous avez des dictées sur l'ancienne version :
 
-- **CodiMD / HedgeDoc** : Collez le lien de partage de votre note
-- **Dropbox** : Générez un lien public vers votre fichier .md
-- **Google Drive** : Partagez le fichier en accès public
-- **Liens directs** : Toute URL pointant vers un fichier .md accessible
+1. Bibliothèque → **"Migrer ancien lien"**
+2. Coller l'URL complète (format `?tl=fr&titre=...&d [ppl-ai-file-upload.s3.amazonaws](https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/40129703/08b31743-7afe-417d-b54b-3c623764587c/README.md)=...`)
+3. Vérifier les phrases décodées
+4. Cliquer sur **"Importer"**
 
-**Note CORS** : Certains services peuvent bloquer les requêtes depuis un autre domaine. CodiMD/HedgeDoc fonctionnent généralement sans problème.
+**Format supporté** : URLs avec paramètres `tl`, `titre`, et `d [ppl-ai-file-upload.s3.amazonaws](https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/40129703/08b31743-7afe-417d-b54b-3c623764587c/README.md)`, `d[2]`, etc. (encodage ASCII)
 
-## Format des fichiers
+---
 
-Les dictées sont sauvegardées au format Markdown avec front matter YAML.
-Voir [docs/FORMAT_MARKDOWN.md](docs/FORMAT_MARKDOWN.md) pour la documentation complète.
+## 📄 Format des fichiers Markdown
 
-## Limitations connues
+Les dictées sont exportées/importées au format **Markdown avec front matter YAML**.
 
-- Stockage localStorage limité (~5-10 Mo selon navigateurs)
-- Environ 50 dictées maximum recommandées
-- Pas de synchronisation multi-appareils (stockage local uniquement)
-- Pas de mode hors-ligne (PWA désactivée pour V0)
+**Exemple :**
 
-## Développement
+```markdown
+---
 
-### Sprints réalisés
+title: Les animaux de la ferme
+language: fr-FR
 
-- **Sprint 1** : Modèle de données et stockage localStorage
-- **Sprint 2** : Navigation SPA et sélection du mode
-- **Sprint 3** : Bibliothèque enseignant avec CRUD
-- **Sprint 4** : Éditeur de dictée avec validation
-- **Sprint 5** : Lecteur de dictée avec synthèse vocale
-- **Sprint 6** : Import/export fichiers Markdown
-- **Sprint 7** : Import depuis cloud (CodiMD, Dropbox, etc.)
-- **Sprint 8** : Migration anciens liens micetf.fr/dictee
+---
 
-### À venir
+Le coq chante le matin.
+La vache donne du lait.
+Les poules pondent des œufs.
+```
 
-## Contribution
+**Spécifications** :
 
-Ce projet est développé de manière incrémentale par sprints.
-Chaque sprint est documenté dans le CHANGELOG.md.
+- Front matter YAML obligatoire (`title`, `language`)
+- Une phrase par ligne (hors front matter)
+- Lignes vides ignorées
+- Encodage UTF-8
 
-## Licence
+Voir `docs/FORMAT_MARKDOWN.md` pour plus de détails.
+
+---
+
+## ⚙️ Limitations connues
+
+- **Stockage** : localStorage limité (~5-10 Mo selon navigateurs)
+- **Nombre de dictées** : ~50 dictées max recommandées
+- **Synchronisation** : Pas de sync multi-appareils (stockage local uniquement)
+- **Mode hors-ligne** : PWA désactivée pour V0 (à venir)
+- **Langues** : Dépend des voix installées sur l'appareil
+
+---
+
+## 🚧 Développement
+
+### Sprints réalisés (V0.10)
+
+| Sprint | Fonctionnalité                        | Statut |
+| ------ | ------------------------------------- | ------ |
+| 1      | Modèle de données + localStorage      | ✅     |
+| 2      | Navigation SPA + sélection mode       | ✅     |
+| 3      | Bibliothèque enseignant (CRUD)        | ✅     |
+| 4      | Éditeur de dictée avec validation     | ✅     |
+| 5      | Lecteur élève avec synthèse vocale    | ✅     |
+| 6      | Import/export Markdown                | ✅     |
+| 7      | Import cloud (CodiMD, Dropbox, Drive) | ✅     |
+| 8      | Migration anciens liens (legacy)      | ✅     |
+| 9      | Système étoiles + impression native   | ✅     |
+| 10     | Sélection langue + diagnostic voix    | ✅     |
+
+### Prochaines étapes possibles
+
+- **Sprint 11** : Optimisation tablettes (CSS touch-friendly)
+- **Sprint 12** : PWA (mode hors-ligne, installable)
+- **Sprint 13** : Statistiques enseignant
+- **Sprint 14** : Historique sessions élève
+- **Sprint 15** : Mode entraînement vs évaluation
+
+---
+
+## 🧪 Tests recommandés avant déploiement
+
+### Tests navigateurs
+
+- [ ] Chrome : toutes fonctionnalités
+- [ ] Safari : synthèse vocale + impression
+- [ ] Firefox : vérifier voix disponibles
+- [ ] Edge : validation complète
+
+### Tests tablettes (recommandé)
+
+- [ ] iPad : création dictée + lecture élève
+- [ ] Tablette Android : idem
+- [ ] Clavier virtuel ne cache pas l'input
+- [ ] Boutons suffisamment grands (touch)
+
+### Tests terrain
+
+- [ ] Créer 3 dictées de démo (5-10 phrases)
+- [ ] Tester avec 2-3 élèves réels
+- [ ] Imprimer résultats
+- [ ] Vérifier synthèse vocale audible (volume)
+
+---
+
+## 📚 Documentation complémentaire
+
+- `CHANGELOG.md` : Historique détaillé des versions
+- `docs/FORMAT_MARKDOWN.md` : Spécifications format fichiers
+- `docs/ARCHITECTURE.md` : Architecture technique (à venir)
+- `docs/GUIDE_ENSEIGNANT.md` : Guide utilisateur PE (à venir)
+
+---
+
+## 🤝 Contribution
+
+Ce projet est développé de manière **incrémentale par sprints**.  
+Chaque sprint est documenté dans le `CHANGELOG.md`.
+
+**Workflow :**
+
+1. Objectif sprint défini
+2. Code fonctionnel développé
+3. Tests manuels validés
+4. Documentation mise à jour
+5. Commit conventionnel en français
+
+---
+
+## 📜 Licence
 
 MIT
 
-## Contact
+---
 
-Projet micetf.fr - École primaire française
+## 📧 Contact
+
+**Projet micetf.fr**  
+École primaire française  
+Développé pour les cycles 1 à 3
+
+---
+
+## ⭐ Remerciements
+
+Merci aux enseignants testeurs et aux élèves pour leurs retours terrain.
+
+---
+
+**Version 0.10** - Février 2026 - Sprints 1 à 10 complétés
+
+```
+
+***
+
+## 📝 Différences principales avec l'ancien README
+
+### ✅ Ajouts majeurs
+1. **Section Langues supportées** avec tableau de compatibilité
+2. **Section Compatibilité navigateurs** détaillée
+3. **Documentation sélection langue** et diagnostic des voix
+4. **Guide impression résultats** complet
+5. **Structure projet** mise à jour avec nouveaux fichiers
+6. **Tableau des sprints** réalisés
+7. **Tests recommandés** avant déploiement
+8. **Badges de version** et date
+
+### ✨ Améliorations
+- Organisation plus claire avec emojis
+- Sections mieux structurées
+- Informations de compatibilité terrain
+- Guide d'utilisation détaillé
+- Focus sur l'usage réel en classe
+- Documentation des limitations
+
+```

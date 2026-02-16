@@ -4,6 +4,7 @@ import ModeSelector from "./components/ModeSelector";
 import TeacherHome from "./components/TeacherHome";
 import EditorView from "./components/EditorView";
 import PlayerView from "./components/PlayerView";
+import VoicesDebugView from "./components/VoicesDebugView";
 import { listDictations } from "./services/storage";
 
 /**
@@ -70,6 +71,14 @@ function App() {
         setRefreshKey((prev) => prev + 1);
     };
 
+    /**
+     * Navigation vers page de diagnostic des voix
+     */
+    const handleNavigate = (destination) => {
+        console.log("Navigation vers:", destination);
+        setView(destination);
+    };
+
     // Vue : Sélection du mode
     if (!mode || view === "home") {
         return (
@@ -92,6 +101,7 @@ function App() {
                         setMode(null);
                         setView("home");
                     }}
+                    onNavigate={handleNavigate}
                 />
             </div>
         );
@@ -164,6 +174,13 @@ function App() {
                 />
             </div>
         );
+    }
+
+    //  Vue : Diagnostic des voix
+    {
+        if (view === "voices-debug") {
+            return <VoicesDebugView onBack={handleBack} />;
+        }
     }
 
     // Fallback

@@ -4,6 +4,85 @@ Toutes les modifications notables du projet seront documentées ici.
 
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/).
 
+## [Sprint 10] - 2026-02-16
+
+### Sélection de langue adaptative et diagnostic des voix
+
+#### Ajouté
+
+- **Hook useAvailableVoices**
+    - Détection dynamique des voix de synthèse disponibles
+    - Compatible tous navigateurs (Chrome, Firefox, Safari, Edge)
+    - Gestion de l'événement onvoiceschanged
+    - Fonctions getVoicesForLanguage() et isLanguageAvailable()
+- **Configuration centralisée des langues**
+    - `src/utils/languages.js`
+    - 5 langues supportées : Français 🇫🇷, Anglais 🇬🇧, Espagnol 🇪🇸, Allemand 🇩🇪, Italien 🇮🇹
+    - Code BCP 47 standard (fr-FR, en-US, etc.)
+    - Constante DEFAULT_LANGUAGE
+- **Composant LanguageSelector**
+    - Menu déroulant avec drapeaux et labels
+    - Détection automatique des langues disponibles sur le système
+    - Langues indisponibles marquées "(non disponible)" et désactivées
+    - Message d'alerte si aucune voix détectée
+    - Détail déroulable des langues avec statut (✓/✗)
+- **Page VoicesDebugView (diagnostic enseignant)**
+    - Liste complète des voix détectées sur le navigateur
+    - Compatibilité avec les langues de l'app (vert/rouge)
+    - Tableau détaillé : langue, nom de la voix, local/cloud
+    - Accessible depuis TeacherHome via bouton "Langues disponibles"
+    - Messages d'aide contextuels
+- **Intégration dans EditorView**
+    - Remplacement du champ texte langue par LanguageSelector
+    - Sélection visuelle intuitive avec drapeaux
+    - Langue par défaut : fr-FR
+- **Navigation vers diagnostic**
+    - Bouton "Langues disponibles" dans TeacherHome
+    - Route "voices-debug" dans App.jsx
+    - Retour vers bibliothèque enseignant
+
+#### Modifié
+
+- **EditorView**
+    - Import DEFAULT_LANGUAGE pour initialisation
+    - Fonction handleLanguageChange adaptée (lang au lieu de e.target.value)
+    - Interface utilisateur modernisée avec drapeaux
+- **TeacherHome**
+    - Ajout bouton "Langues disponibles" avec icône info
+    - Responsive : texte complet desktop, "Langues" mobile
+    - Prop onNavigate pour navigation vers diagnostic
+- **App.jsx**
+    - Import VoicesDebugView
+    - Fonction handleNavigate pour navigation page diagnostic
+    - Route voices-debug avant fallback
+    - Condition view !== "voices-debug" dans fallback
+
+#### Technique
+
+- Hook personnalisé avec cleanup (onvoiceschanged)
+- Détection voix asynchrone (nécessaire sur certains navigateurs)
+- Filtrage voix par code langue exact + partiel (fr-FR, fr-CA, etc.)
+- Gestion état loading pendant détection
+- Utilitaires getLanguageByCode, getLanguageLabel
+
+#### Pédagogique / Terrain
+
+- Enseignant peut vérifier avant test en classe quelles langues fonctionnent
+- Évite de créer des dictées dans une langue non disponible
+- Alerte claire si langue manquante
+- Facilite le dépannage (Chrome recommandé si problème)
+
+#### Tests manuels validés
+
+- [x] Page VoicesDebugView affiche toutes les voix
+- [x] LanguageSelector affiche menu déroulant avec drapeaux
+- [x] Langues disponibles/indisponibles détectées correctement
+- [x] Détail déroulant fonctionne
+- [x] Bouton "Langues disponibles" dans TeacherHome
+- [x] Navigation vers diagnostic et retour
+- [x] Édition dictée : langue sélectionnable
+- [x] Création dictée : langue par défaut fr-FR
+
 ## [Sprint 9] - 2026-02-16
 
 ### Refonte complète PlayerView - Système d'étoiles et impression

@@ -10,7 +10,7 @@ import MigrateLegacyModal from "./MigrateLegacyModal";
 /**
  * Page d'accueil de l'enseignant - Bibliothèque de dictées
  */
-function TeacherHome({ onCreateNew, onEdit, onPlay, onBack }) {
+function TeacherHome({ onCreateNew, onEdit, onPlay, onBack, onNavigate }) {
     // Initialisation paresseuse : charger les dictées uniquement au premier rendu
     const [dictations, setDictations] = useState(() => {
         const all = listDictations();
@@ -91,6 +91,30 @@ function TeacherHome({ onCreateNew, onEdit, onPlay, onBack }) {
             {/* Barre d'actions */}
             <div className="mb-6 space-y-4">
                 {/* Actions principales */}
+                <button
+                    onClick={() => onNavigate && onNavigate("voices-debug")}
+                    className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm flex items-center gap-2"
+                    title="Vérifier les langues disponibles sur ce navigateur"
+                >
+                    <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                    </svg>
+                    <span className="hidden sm:inline">
+                        Langues disponibles
+                    </span>
+                    <span className="sm:hidden">Langues</span>
+                </button>
+
                 <div className="flex flex-wrap gap-2">
                     <button
                         onClick={onCreateNew}

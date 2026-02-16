@@ -1,6 +1,7 @@
 import { useEffect, useState, startTransition } from "react";
 import { getDictation } from "../services/storage";
 import { useSpeechSynthesis } from "../hooks/useSpeechSynthesis";
+import { useAvailableVoices } from "../hooks/useAvailableVoices";
 import { areTextsEqual } from "../utils/textComparison";
 import ResultsView from "./ResultsView";
 
@@ -16,6 +17,10 @@ function PlayerView({ dictationId, onBack }) {
     const [showComparison, setShowComparison] = useState(false);
     const [isValidated, setIsValidated] = useState(false);
     const [completed, setCompleted] = useState(false);
+    const { isLanguageAvailable } = useAvailableVoices();
+    const hasVoiceForLanguage = dictation
+        ? isLanguageAvailable(dictation.language)
+        : false;
 
     // Charger la dictée
     useEffect(() => {
@@ -203,6 +208,39 @@ function PlayerView({ dictationId, onBack }) {
 
             {/* Zone de travail */}
             <div className="bg-white rounded-lg shadow-sm border p-6 space-y-4">
+                {dictation && !hasVoiceForLanguage && (
+                    <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-4 mb-4">
+                        <div className="flex items-start gap-3">
+                            <svg
+                                className="w-6 h-6 text-orange-600 flex-shrink-0"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                                />
+                            </svg>
+                            <div className="flex-1">
+                                <p className="font-semibold text-orange-900 mb-1">
+                                    Langue non disponible sur cet appareil
+                                </p>
+                                <p className="text-sm text-orange-800">
+                                    La dictée est en{" "}
+                                    <strong>{dictation.language}</strong> mais
+                                    aucune voix n'est installée pour cette
+                                    langue sur votre navigateur. Demandez à
+                                    votre enseignant de lire les phrases ou
+                                    essayez un autre navigateur (Chrome
+                                    recommandé).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                )}
                 {/* Bouton écoute */}
                 <div>
                     <button
