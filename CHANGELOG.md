@@ -4,6 +4,70 @@ Toutes les modifications notables du projet seront documentées ici.
 
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/).
 
+## [Sprint 11] - 2026-02-16
+
+### Dictées par défaut - Application prête à l'emploi
+
+#### Ajouté
+
+- **8 dictées préchargées au premier lancement**
+    - Mots invariables CP-1 (12 mots)
+    - Mots invariables CP-2 (12 mots)
+    - Mots invariables CE1-1 (12 mots)
+    - Mots invariables CE1-2 (12 mots)
+    - Mots invariables CE1-3 (12 mots)
+    - Mots invariables CE1-4 (12 mots)
+    - Les mois de l'année (français, 12 mois)
+    - The months of the year (anglais, 12 mois)
+- **Fichier de données par défaut**
+    - `src/data/defaultDictations.js`
+    - Structure standardisée : title, language, sentences
+    - 96 mots au total (72 mots invariables + 24 mois)
+- **Fonction resetToDefaultDictations()**
+    - Réinitialisation complète de la bibliothèque
+    - Confirmation obligatoire (double sécurité)
+    - Accessible depuis storage.js
+
+#### Modifié
+
+- **storage.js - Fonction listDictations()**
+    - Détection automatique du premier lancement (`!stored`)
+    - Appel transparente loadDefaultDictations()
+    - Relecture après chargement pour synchronisation
+- **storage.js - Ajout loadDefaultDictations()**
+    - Génération IDs uniques avec uuid
+    - Timestamps incrémentés pour ordre stable
+    - Gestion d'erreur avec logs console
+    - Sauvegarde directe dans localStorage
+
+#### Technique
+
+- Détection premier lancement : `localStorage.getItem(STORAGE_KEY) === null`
+- IDs générés avec `uuidv4()` pour garantir unicité
+- Timestamps `now + index` pour tri chronologique stable
+- Import ES6 depuis `src/data/defaultDictations.js`
+- Pas de dépendance externe (données statiques JS)
+
+#### Pédagogique / Terrain
+
+- Application immédiatement utilisable sans configuration
+- Contenu adapté cycles 2-3 (CP/CE1)
+- Progression mots invariables conforme programmes
+- Dictées multilingues (français + anglais) pour éveil langues
+- Enseignant peut modifier/dupliquer/supprimer ces dictées
+- Base solide pour créer ses propres dictées
+
+#### Tests manuels validés
+
+- [x] Premier lancement : 8 dictées chargées automatiquement
+- [x] Console affiche "✅ 8 dictées par défaut chargées"
+- [x] Dictées modifiables/supprimables comme les autres
+- [x] Fonction resetToDefaultDictations() avec confirmation
+- [x] IDs uniques générés correctement
+- [x] Ordre stable dans la bibliothèque
+- [x] Pas de doublon au rechargement
+- [x] Mode élève : toutes les dictées jouables
+
 ## [Sprint 10] - 2026-02-16
 
 ### Sélection de langue adaptative et diagnostic des voix

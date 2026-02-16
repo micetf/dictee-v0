@@ -38,6 +38,39 @@ npm run build
 
 ---
 
+---
+
+## 📚 Dictées par défaut
+
+L'application contient **8 dictées préchargées** au premier lancement :
+
+**Cycle 2 (CP/CE1) - Mots invariables :**
+
+- **Mots invariables CP-1** : après, assez, avec, beaucoup, bien, chez, dans, jamais, mais, moins, non, oui
+- **Mots invariables CP-2** : quand, qui, parce que, partout, pas, plus, pour, sur, toujours, tout, très, trop
+- **Mots invariables CE1-1** : alors, après, assez, aujourd'hui, aussi, autant, autour, autrefois, avant, avec, beaucoup, bien
+- **Mots invariables CE1-2** : chez, combien, comme, comment, dans, déjà, depuis, demain, derrière, dessous, dessus, devant
+- **Mots invariables CE1-3** : encore, ensuite, hier, jamais, longtemps, maintenant, mais, mieux, moins, parce que, parfois, pendant
+- **Mots invariables CE1-4** : plusieurs, pourquoi, quand, quelquefois, sans, seulement, soudain, souvent, toujours, très, trop, voilà
+
+**Vocabulaire de base :**
+
+- **Les mois de l'année** (français) : janvier, février, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, décembre
+- **The months of the year** (anglais) : January, February, March, April, May, June, July, August, September, October, November, December
+
+> **📌 Note :** Ces dictées sont chargées automatiquement lors de la première utilisation. Elles peuvent être modifiées, dupliquées ou supprimées comme n'importe quelle dictée créée.
+
+**Contenu pédagogique :**
+
+- **96 mots** au total (72 mots invariables + 24 mois)
+- Progression conforme aux programmes de **cycle 2**
+- Mots invariables essentiels pour l'orthographe grammaticale
+- Vocabulaire de base transdisciplinaire (repérage temporel)
+- Dictée anglaise pour ouverture aux langues
+
+**Réinitialisation :**  
+Si vous souhaitez revenir aux 8 dictées par défaut après avoir créé/importé d'autres dictées, utilisez la fonction `resetToDefaultDictations()` dans la console développeur (⚠️ supprime toutes les dictées existantes).
+
 ## 🛠️ Stack technique
 
 - **React 18** + **Vite 6** : Interface et build rapide
@@ -292,10 +325,8 @@ Les dictées sont exportées/importées au format **Markdown avec front matter Y
 
 ```markdown
 ---
-
 title: Les animaux de la ferme
 language: fr-FR
-
 ---
 
 Le coq chante le matin.
@@ -328,18 +359,19 @@ Voir `docs/FORMAT_MARKDOWN.md` pour plus de détails.
 
 ### Sprints réalisés (V0.10)
 
-| Sprint | Fonctionnalité                        | Statut |
-| ------ | ------------------------------------- | ------ |
-| 1      | Modèle de données + localStorage      | ✅     |
-| 2      | Navigation SPA + sélection mode       | ✅     |
-| 3      | Bibliothèque enseignant (CRUD)        | ✅     |
-| 4      | Éditeur de dictée avec validation     | ✅     |
-| 5      | Lecteur élève avec synthèse vocale    | ✅     |
-| 6      | Import/export Markdown                | ✅     |
-| 7      | Import cloud (CodiMD, Dropbox, Drive) | ✅     |
-| 8      | Migration anciens liens (legacy)      | ✅     |
-| 9      | Système étoiles + impression native   | ✅     |
-| 10     | Sélection langue + diagnostic voix    | ✅     |
+| Sprint | Fonctionnalité                         | Statut |
+| ------ | -------------------------------------- | ------ |
+| 1      | Modèle de données + localStorage       | ✅     |
+| 2      | Navigation SPA + sélection mode        | ✅     |
+| 3      | Bibliothèque enseignant (CRUD)         | ✅     |
+| 4      | Éditeur de dictée avec validation      | ✅     |
+| 5      | Lecteur élève avec synthèse vocale     | ✅     |
+| 6      | Import/export Markdown                 | ✅     |
+| 7      | Import cloud (CodiMD, Dropbox, Drive)  | ✅     |
+| 8      | Migration anciens liens (legacy)       | ✅     |
+| 9      | Système étoiles + impression native    | ✅     |
+| 10     | Sélection langue + diagnostic voix     | ✅     |
+| 11     | 8 dictées par défaut (prêt à l'emploi) | ✅     |
 
 ### Prochaines étapes possibles
 
@@ -420,30 +452,4 @@ Merci aux enseignants testeurs et aux élèves pour leurs retours terrain.
 
 ---
 
-**Version 0.10** - Février 2026 - Sprints 1 à 10 complétés
-
-```
-
-***
-
-## 📝 Différences principales avec l'ancien README
-
-### ✅ Ajouts majeurs
-1. **Section Langues supportées** avec tableau de compatibilité
-2. **Section Compatibilité navigateurs** détaillée
-3. **Documentation sélection langue** et diagnostic des voix
-4. **Guide impression résultats** complet
-5. **Structure projet** mise à jour avec nouveaux fichiers
-6. **Tableau des sprints** réalisés
-7. **Tests recommandés** avant déploiement
-8. **Badges de version** et date
-
-### ✨ Améliorations
-- Organisation plus claire avec emojis
-- Sections mieux structurées
-- Informations de compatibilité terrain
-- Guide d'utilisation détaillé
-- Focus sur l'usage réel en classe
-- Documentation des limitations
-
-```
+**Version 0.11** - Février 2026 - Sprints 1 à 11 complétés

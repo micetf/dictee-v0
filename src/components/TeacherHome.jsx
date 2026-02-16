@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { listDictations, deleteDictation } from "../services/storage";
+import {
+    listDictations,
+    deleteDictation,
+    resetToDefaultDictations,
+} from "../services/storage";
 import DictationCard from "./DictationCard";
 import { generateMarkdown } from "../services/markdown";
 import { downloadTextFile, sanitizeFilename } from "../utils/download";
@@ -34,7 +38,12 @@ function TeacherHome({ onCreateNew, onEdit, onPlay, onBack, onNavigate }) {
         deleteDictation(id);
         refreshDictations();
     };
-
+    const handleReset = () => {
+        const success = resetToDefaultDictations();
+        if (success) {
+            refreshDictations();
+        }
+    };
     // Filtrage par recherche
     const filteredDictations = dictations.filter((d) => {
         const query = searchQuery.toLowerCase();
@@ -169,6 +178,26 @@ function TeacherHome({ onCreateNew, onEdit, onPlay, onBack, onNavigate }) {
                         }
                     >
                         Tout exporter
+                    </button>
+                    <button
+                        onClick={handleReset}
+                        className="px-4 py-2 border border-orange-300 text-orange-700 hover:bg-orange-50 rounded-lg text-sm flex items-center gap-2"
+                        title="Réinitialiser avec les dictées par défaut"
+                    >
+                        <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                            />
+                        </svg>
+                        Réinitialiser
                     </button>
                 </div>
 
