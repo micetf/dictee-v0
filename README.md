@@ -76,9 +76,33 @@ src/
 
 ### Mode Élève
 
-- ✅ Liste des dictées disponibles
-- 🔜 Lecteur avec synthèse vocale (Sprint 5)
-- 🔜 Saisie et correction (Sprint 5)
+- ✅ **Lecteur de dictée avec mastéry learning**
+    - Écoute phrase par phrase (synthèse vocale)
+    - Validation obligatoire avant passage phrase suivante
+    - Système d'évaluation à 3 étoiles selon nombre d'essais
+    - Comparaison erreur/correction côte à côte
+    - Messages d'encouragement contextuels
+    - Option "Passer" après 3 échecs
+    - Écran de résultats détaillé avec répartition
+    - **Impression/Export PDF natif personnalisable**
+        - Nom élève, classe, enseignant
+        - Option afficher/masquer tentatives
+        - Mise en page A4 ultra-compacte (1 page pour 15-20 phrases)
+        - Zones de signature
+        - Étoiles ⭐ parfaitement affichées
+
+## Système d'évaluation
+
+**Étoiles par phrase :**
+
+- ⭐⭐⭐ : Phrase juste du premier coup
+- ⭐⭐ : Phrase juste en 2-3 essais
+- ⭐ : Phrase juste après 3+ essais
+- (vide) : Phrase passée sans validation
+
+**Score final :** Somme des étoiles obtenues / (nombre de phrases × 3) × 100
+
+**Principe pédagogique :** Mastéry learning - l'élève doit écrire correctement chaque phrase avant de progresser, avec un maximum de 3 tentatives puis possibilité de passer.
 
 ## Utilisation
 

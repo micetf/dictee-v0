@@ -4,6 +4,93 @@ Toutes les modifications notables du projet seront documentées ici.
 
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/).
 
+## [Sprint 9] - 2026-02-16
+
+### Refonte complète PlayerView - Système d'étoiles et impression
+
+#### Ajouté
+
+- **Système de mastéry learning avec validation obligatoire**
+    - Validation phrase par phrase (plus mot par mot)
+    - Obligation de réussir avant de passer à la phrase suivante
+    - Maximum 3 tentatives puis option "Passer"
+- **Système d'évaluation à 3 étoiles**
+    - ⭐⭐⭐ : Phrase juste du premier coup
+    - ⭐⭐ : Phrase juste en 2-3 essais
+    - ⭐ : Phrase juste après 3+ essais
+    - (vide) : Phrase passée sans validation
+- **Comparaison erreur/correction côte à côte (Option A)**
+    - Affichage "❌ Ta réponse" vs "✅ Attendu"
+    - Messages d'encouragement contextuels (3 niveaux selon nombre d'essais)
+    - Bouton "Réessayer" pour nouvelle tentative
+- **Composant ResultsView complet**
+    - Affichage score total et pourcentage
+    - Répartition visuelle par type d'étoiles (4 cartes)
+    - Détail complet de toutes les phrases
+    - Historique des tentatives par phrase
+- **Système d'impression/export PDF natif**
+    - Impression via window.print() (pas de dépendance externe)
+    - Modal de personnalisation (nom élève, classe, enseignant)
+    - Option afficher/masquer les tentatives
+    - Mise en page optimisée A4 ultra-compacte
+    - En-tête, légende, zones de signature, pied de page
+    - CSS @media print dédié
+    - Les étoiles ⭐ s'affichent parfaitement
+    - Bouton impression rapide (sans options)
+- **Utilitaires de comparaison de texte**
+    - `src/utils/textComparison.js`
+    - Normalisation insensible casse/espaces
+    - Fonction `areTextsEqual()` pour validation
+    - Fonction `compareWords()` (prête pour usage futur)
+
+#### Modifié
+
+- **PlayerView : refonte totale du workflow**
+    - Gestion états complexes (tentatives, résultats, validation)
+    - Calcul dynamique des étoiles selon règles métier
+    - Textarea désactivée après réussite
+    - Boutons conditionnels selon état
+    - Passage automatique impossible sans validation
+- **Optimisation de l'espace pour impression**
+    - Marges réduites à 10mm
+    - Polices compactes (9pt body, 8pt détails)
+    - Espacements minimisés
+    - Layout sur 1 ligne pour en-tête et score
+    - Dictée 15-20 phrases : 1 page A4
+
+#### Supprimé
+
+- Dépendance jsPDF (non fonctionnelle avec étoiles Unicode)
+- Tentative pdfmake (problèmes d'import)
+- Bouton "Afficher la phrase" (non pertinent didactiquement)
+
+#### Technique
+
+- Correction warning React (setState synchrone dans useEffect)
+- Utilisation `queueMicrotask()` pour différer les setState
+- Suppression imports inutilisés (`compareWords`)
+- CSS print avec classes utilitaires (.no-print, .print-keep-together)
+- Modal contrôlé par état local (showPrintOptions)
+
+#### Didactique
+
+- Validation obligatoire = garantie de passage par la réussite
+- Feedback immédiat avec correction explicite
+- Différenciation naturelle (rythme individuel)
+- Porte de sortie après 3 échecs (évite frustration)
+- Score motivant mais non stigmatisant
+
+#### Tests manuels validés
+
+- [x] Workflow phrase juste 1er coup → ⭐⭐⭐
+- [x] Workflow avec erreurs puis réussite → ⭐⭐ ou ⭐
+- [x] Option "Passer" après 3 échecs
+- [x] Écran résultats avec répartition correcte
+- [x] Impression avec personnalisation
+- [x] Impression rapide sans modal
+- [x] Étoiles affichées dans le PDF
+- [x] Mise en page compacte 1 page pour 15 phrases
+
 ## [Sprint 8] - 2026-02-16
 
 ### Ajouté
