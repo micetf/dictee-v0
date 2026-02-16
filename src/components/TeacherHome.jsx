@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { listDictations, deleteDictation } from "../services/storage";
 import DictationCard from "./DictationCard";
 
@@ -6,12 +6,17 @@ import DictationCard from "./DictationCard";
  * Page d'accueil de l'enseignant - Bibliothèque de dictées
  */
 function TeacherHome({ onCreateNew, onEdit, onPlay, onBack }) {
-    const [dictations, setDictations] = useState([]);
+    // Initialisation paresseuse : charger les dictées uniquement au premier rendu
+    const [dictations, setDictations] = useState(() => {
+        const all = listDictations();
+        return all.sort((a, b) => b.updatedAt - a.updatedAt);
+    });
+
     const [searchQuery, setSearchQuery] = useState("");
 
+    // Fonction de rafraîchissement (pour après suppression/modification)
     const refreshDictations = () => {
         const all = listDictations();
-        // Trier par date de modification décroissante
         const sorted = all.sort((a, b) => b.updatedAt - a.updatedAt);
         setDictations(sorted);
     };

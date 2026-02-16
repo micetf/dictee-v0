@@ -2,27 +2,27 @@
 
 Application web simplifiée pour créer et pratiquer des dictées à l'école primaire.
 
-## 🎯 Objectif V0
+## Objectif V0
 
 Version minimale fonctionnelle sans PWA ni router, centrée sur :
 
 - Bibliothèque locale de dictées (enseignant)
-- Mode lecture pour les élèves
-- Import/export de dictées au format Markdown
-- Migration depuis l'ancienne version micetf.fr/dictee
+- Création et modification de dictées avec validation
+- Mode lecture pour les élèves (à venir)
+- Import/export de dictées (à venir)
 
-## 📚 Stack technique
+## Stack technique
 
 - **React 18** + **Vite 6** : interface et build
-- **Tailwind CSS 4** : styles utilitaires
+- **Tailwind CSS 4** : styles
 - **localStorage** : stockage local (limite ~50 dictées)
-- **Web Speech API** : synthèse vocale (à venir Sprint 5)
+- **Web Speech API** : synthèse vocale (à venir)
 
-## 🚀 Installation
+## Installation
 
 ```bash
 # Cloner le projet
-git clone [URL_DU_REPO]
+git clone [url-du-repo]
 cd dictee-v0
 
 # Installer les dépendances
@@ -31,114 +31,119 @@ npm install
 # Lancer en développement
 npm run dev
 
-# Build de production
+# Builder pour production
 npm run build
 ```
 
-## 📁 Structure du projet
+## Structure du projet
 
 ```
 src/
-├── domain/           # Modèles de données
-│   └── dictee.js    # Modèle dictée + validation
-├── services/         # Services métier
-│   └── storage.js   # CRUD localStorage
-├── components/       # Composants React
+├── domain/              # Modèles de données
+│   └── dictee.js       # Modèle dictée avec factory
+├── services/            # Services métier
+│   └── storage.js      # CRUD localStorage
+├── components/          # Composants React
 │   ├── ModeSelector.jsx      # Choix enseignant/élève
 │   ├── TeacherHome.jsx       # Bibliothèque enseignant
-│   └── DictationCard.jsx     # Carte dictée
-├── utils/            # Utilitaires
-│   └── date.js      # Formatage dates
-├── App.jsx          # Composant racine + navigation SPA
-├── App.css          # Styles globaux
-└── index.css        # Config Tailwind + utilitaires
+│   ├── DictationCard.jsx     # Carte de dictée
+│   └── EditorView.jsx        # Éditeur de dictée
+├── utils/               # Utilitaires
+│   ├── date.js         # Formatage dates
+│   └── validation.js   # Validation dictées
+├── App.jsx             # Composant racine (navigation SPA)
+├── App.css             # Styles application
+└── index.css           # Styles globaux + Tailwind
 ```
 
-## 🎓 Usage
+## Fonctionnalités actuelles
 
 ### Mode Enseignant
 
-1. **Créer une dictée** : cliquer sur "Nouvelle dictée"
-2. **Modifier** : cliquer sur "Modifier" sur une carte
-3. **Supprimer** : cliquer sur "Supprimer" (avec confirmation)
-4. **Rechercher** : utiliser la barre de recherche pour filtrer
+- ✅ Sélection du mode (enseignant/élève)
+- ✅ Bibliothèque de dictées avec recherche
+- ✅ Création de dictées (titre, langue BCP 47, phrases)
+- ✅ Modification de dictées existantes
+- ✅ Suppression de dictées avec confirmation
+- ✅ Validation complète des données
+- ✅ Tri par date de modification
+- ✅ Compteur de phrases en temps réel
+- ✅ Détection des modifications non sauvegardées
+- 🔜 Export au format .md (Sprint 6)
+- 🔜 Import fichiers .md (Sprint 6)
+- 🔜 Import depuis cloud (Sprint 7)
+- 🔜 Migration anciens liens (Sprint 8)
 
 ### Mode Élève
 
-1. Sélectionner une dictée dans la liste
-2. Suivre les phrases une par une
-3. Saisir le texte dicté
-4. Recevoir un feedback immédiat
+- ✅ Liste des dictées disponibles
+- 🔜 Lecteur avec synthèse vocale (Sprint 5)
+- 🔜 Saisie et correction (Sprint 5)
 
-## 🔄 Fonctionnalités implémentées
+## Utilisation
 
-### ✅ Sprint 1 (16/02/2026)
+### Créer une dictée
 
-- Modèle de données `dictee` avec validation
-- Service CRUD localStorage complet
-- Documentation initiale
+1. Lancer l'application et choisir "Je suis enseignant"
+2. Cliquer sur "Nouvelle dictée"
+3. Remplir le formulaire :
+    - **Titre** : nom de la dictée (obligatoire, max 100 caractères)
+    - **Langue** : code BCP 47 (ex: fr-FR, en-US, es-ES)
+    - **Phrases** : une phrase par ligne (min 1, max 100)
+4. Cliquer sur "Enregistrer"
 
-### ✅ Sprint 2 (16/02/2026)
+### Modifier une dictée
 
-- Navigation SPA sans router
-- Sélecteur de mode enseignant/élève
-- Styles de base Tailwind + animations
-- Structure responsive et accessible
+1. Dans la bibliothèque, cliquer sur "Modifier"
+2. Effectuer les modifications
+3. Cliquer sur "Enregistrer" ou "Annuler"
 
-### ✅ Sprint 3 (16/02/2026)
+### Supprimer une dictée
 
-- Bibliothèque enseignant avec liste des dictées
-- Composant DictationCard avec actions
-- Barre de recherche avec filtrage temps réel
-- Tri automatique par date de modification
-- Gestion de l'état vide avec CTA
+1. Dans la bibliothèque, cliquer sur "Supprimer"
+2. Confirmer la suppression
 
-## 🚧 À venir
+### Codes de langue courants
 
-- **Sprint 4** : Éditeur de dictée (création/modification)
-- **Sprint 5** : Lecteur de dictée avec Web Speech API
-- **Sprint 6** : Import/export fichiers .md
-- **Sprint 7** : Import depuis cloud (CodiMD, Dropbox, Nuage)
+- **fr-FR** : Français (France)
+- **en-US** : Anglais (États-Unis)
+- **en-GB** : Anglais (Royaume-Uni)
+- **es-ES** : Espagnol (Espagne)
+- **de-DE** : Allemand (Allemagne)
+- **it-IT** : Italien (Italie)
+
+## Limitations connues
+
+- Stockage localStorage limité (~5-10 Mo selon navigateurs)
+- Environ 50 dictées maximum recommandées
+- Pas de synchronisation multi-appareils (stockage local uniquement)
+- Pas de mode hors-ligne (PWA désactivée pour V0)
+
+## Développement
+
+### Sprints réalisés
+
+- **Sprint 1** : Modèle de données et stockage localStorage
+- **Sprint 2** : Navigation SPA et sélection du mode
+- **Sprint 3** : Bibliothèque enseignant avec CRUD
+- **Sprint 4** : Éditeur de dictée avec validation
+
+### À venir
+
+- **Sprint 5** : Lecteur de dictée avec synthèse vocale
+- **Sprint 6** : Import/export fichiers Markdown
+- **Sprint 7** : Import depuis cloud (CodiMD, Dropbox, etc.)
 - **Sprint 8** : Migration anciens liens micetf.fr/dictee
 
-## 🧪 Tests manuels
+## Contribution
 
-Voir les checklists de tests dans les commits de chaque sprint.
+Ce projet est développé de manière incrémentale par sprints.
+Chaque sprint est documenté dans le CHANGELOG.md.
 
-Pour créer des dictées de test via la console :
+## Licence
 
-```js
-import { saveDictation } from "./src/services/storage.js";
-import { createEmptyDictee } from "./src/domain/dictee.js";
+MIT
 
-const d = createEmptyDictee();
-d.title = "Les mois de l'année";
-d.language = "fr-FR";
-d.sentences = ["Janvier", "Février", "Mars"];
-saveDictation(d);
-```
+## Contact
 
-## 📖 Documentation
-
-- `README.md` : ce fichier
-- `CHANGELOG.md` : historique détaillé des modifications
-- `docs/` (à venir) : guides utilisateur et technique
-
-## 🤝 Contribution
-
-Projet développé en solo par sprints incrémentaux.
-Chaque sprint = fonctionnalité complète + tests + doc + commit.
-
-## 📝 Licence
-
-À définir
-
-## 👤 Auteur
-
-Conseiller Pédagogique de Circonscription (CPC)  
-Mathématiques et Numérique - École primaire française
-
----
-
-**Version actuelle** : Sprint 3 (Bibliothèque enseignant)  
-**Dernière mise à jour** : 16/02/2026
+Projet micetf.fr - École primaire française
