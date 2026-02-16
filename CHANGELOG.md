@@ -2,6 +2,23 @@ Changelog
 
 Toutes les modifications notables du projet seront documentées ici.
 
+## [Sprint 3] - 2026-02-16
+
+### Ajouté
+
+- Composant `TeacherHome` : bibliothèque complète de dictées
+- Composant `DictationCard` : carte de dictée avec actions
+- Barre de recherche avec filtrage en temps réel
+- Utilitaires de formatage de dates (`utils/date.js`)
+- Tri automatique des dictées par date de modification
+- Messages adaptés pour état vide et recherche sans résultat
+- Interface responsive pour actions mobile/desktop
+
+### Amélioré
+
+- Expérience utilisateur enseignant : actions claires et accessibles
+- Feedback visuel sur survol et états désactivés
+
 ## [Sprint 2] - 2026-02-16
 
 ### Ajouté

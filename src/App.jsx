@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import ModeSelector from "./components/ModeSelector";
+import TeacherHome from "./components/TeacherHome";
+
 import { listDictations } from "./services/storage";
 
 /**
@@ -73,25 +75,19 @@ function App() {
         );
     }
 
-    // Vue : Mode enseignant (à implémenter Sprint 3)
+    // Vue : Mode enseignant
     if (view === "teacher") {
         return (
             <div className="app-container">
-                <div className="view-container fade-in">
-                    <h1 className="text-2xl font-bold mb-4">Mode Enseignant</h1>
-                    <button
-                        className="px-4 py-2 bg-blue-600 text-white rounded"
-                        onClick={handleCreateNew}
-                    >
-                        Nouvelle dictée (Sprint 3)
-                    </button>
-                    <button
-                        className="ml-2 px-4 py-2 border rounded"
-                        onClick={() => setView("home")}
-                    >
-                        Retour
-                    </button>
-                </div>
+                <TeacherHome
+                    onCreateNew={handleCreateNew}
+                    onEdit={handleEdit}
+                    onPlay={handlePlay}
+                    onBack={() => {
+                        setMode(null);
+                        setView("home");
+                    }}
+                />
             </div>
         );
     }
