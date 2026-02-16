@@ -130,8 +130,19 @@ src/
 - ✅ Recherche dans la bibliothèque
 - ✅ **Export de dictées au format Markdown (.md)**
 - ✅ **Import de dictées depuis fichiers Markdown**
-- 🔜 Import depuis cloud (Sprint 7)
+- ✅ **Import depuis services cloud (CodiMD, Dropbox, Google Drive)**
 - 🔜 Migration anciens liens (Sprint 8)
+
+## Services cloud supportés
+
+L'application peut importer des dictées depuis :
+
+- **CodiMD / HedgeDoc** : Collez le lien de partage de votre note
+- **Dropbox** : Générez un lien public vers votre fichier .md
+- **Google Drive** : Partagez le fichier en accès public
+- **Liens directs** : Toute URL pointant vers un fichier .md accessible
+
+**Note CORS** : Certains services peuvent bloquer les requêtes depuis un autre domaine. CodiMD/HedgeDoc fonctionnent généralement sans problème.
 
 ## Format des fichiers
 
@@ -155,10 +166,10 @@ Voir [docs/FORMAT_MARKDOWN.md](docs/FORMAT_MARKDOWN.md) pour la documentation co
 - **Sprint 4** : Éditeur de dictée avec validation
 - **Sprint 5** : Lecteur de dictée avec synthèse vocale
 - **Sprint 6** : Import/export fichiers Markdown
+- **Sprint 7** : Import depuis cloud (CodiMD, Dropbox, etc.)
 
 ### À venir
 
-- **Sprint 7** : Import depuis cloud (CodiMD, Dropbox, etc.)
 - **Sprint 8** : Migration anciens liens micetf.fr/dictee
 
 ## Contribution

@@ -4,6 +4,30 @@ Toutes les modifications notables du projet seront documentées ici.
 
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/).
 
+## [Sprint 7] - 2026-02-16
+
+### Ajouté
+
+- Service d'import cloud (`services/cloudImport.js`) :
+    - Support CodiMD / HedgeDoc (détection auto + normalisation URL)
+    - Support Dropbox (conversion lien partage → téléchargement direct)
+    - Support Google Drive (extraction ID fichier)
+    - Détection automatique du service cloud
+    - Gestion des erreurs CORS avec messages explicites
+- Composant `ImportCloudModal` :
+    - Saisie URL avec détection service
+    - Récupération asynchrone du contenu
+    - Aperçu avant import
+    - États de chargement et messages d'erreur contextuels
+    - Aide déroulante pour chaque service
+
+### Technique
+
+- Fetch avec gestion CORS
+- Normalisation automatique des URLs selon le service
+- Validation du contenu récupéré avant import
+- Support de la touche Entrée pour lancer le fetch
+
 ## [Sprint 6] - 2026-02-16
 
 ### Ajouté

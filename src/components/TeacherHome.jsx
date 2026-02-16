@@ -4,6 +4,7 @@ import DictationCard from "./DictationCard";
 import { generateMarkdown } from "../services/markdown";
 import { downloadTextFile, sanitizeFilename } from "../utils/download";
 import ImportMarkdownModal from "./ImportMarkdownModal";
+import ImportCloudModal from "./ImportCloudModal";
 
 /**
  * Page d'accueil de l'enseignant - Bibliothèque de dictées
@@ -17,6 +18,7 @@ function TeacherHome({ onCreateNew, onEdit, onPlay, onBack }) {
 
     const [searchQuery, setSearchQuery] = useState("");
     const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+    const [isImportCloudModalOpen, setIsImportCloudModalOpen] = useState(false);
 
     // Fonction de rafraîchissement (pour après suppression/modification)
     const refreshDictations = () => {
@@ -113,6 +115,13 @@ function TeacherHome({ onCreateNew, onEdit, onPlay, onBack }) {
                         className="px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
                     >
                         Importer un fichier
+                    </button>
+
+                    <button
+                        onClick={() => setIsImportCloudModalOpen(true)}
+                        className="px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                    >
+                        Importer depuis le cloud
                     </button>
 
                     <button
@@ -245,6 +254,14 @@ function TeacherHome({ onCreateNew, onEdit, onPlay, onBack }) {
             <ImportMarkdownModal
                 isOpen={isImportModalOpen}
                 onClose={() => setIsImportModalOpen(false)}
+                onSuccess={() => {
+                    refreshDictations();
+                }}
+            />
+            {/* Modal import cloud */}
+            <ImportCloudModal
+                isOpen={isImportCloudModalOpen}
+                onClose={() => setIsImportCloudModalOpen(false)}
                 onSuccess={() => {
                     refreshDictations();
                 }}
