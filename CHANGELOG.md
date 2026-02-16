@@ -4,6 +4,27 @@ Toutes les modifications notables du projet seront documentées ici.
 
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/).
 
+## [Sprint 5] - 2026-02-16
+
+### Ajouté
+
+- Composant `PlayerView` pour le mode élève :
+    - Lecture phrase par phrase
+    - Synthèse vocale via Web Speech API
+    - Saisie de la phrase et feedback simple (correct/incorrect)
+    - Navigation précédente / suivante
+    - Écran de fin de dictée avec options (recommencer, retour)
+    - Option d'affichage de la phrase (soutien à la compréhension)
+- Hook `useSpeechSynthesis` :
+    - Détection du support navigateur
+    - Gestion des états speaking / error
+    - API simple `speak(text, lang)` et `cancel()`
+
+### Technique
+
+- Préparation au remplacement du hook de synthèse par le code plus avancé existant
+- Normalisation de texte pour comparaison insensible à la casse et aux espaces
+
 ## [Sprint 4] - 2026-02-16
 
 ### Ajouté

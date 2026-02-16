@@ -3,6 +3,7 @@ import "./App.css";
 import ModeSelector from "./components/ModeSelector";
 import TeacherHome from "./components/TeacherHome";
 import EditorView from "./components/EditorView";
+import PlayerView from "./components/PlayerView";
 import { listDictations } from "./services/storage";
 
 /**
@@ -156,20 +157,11 @@ function App() {
     if (view === "player") {
         return (
             <div className="app-container">
-                <div className="view-container fade-in">
-                    <h1 className="text-2xl font-bold mb-4">
-                        Lecteur de dictée
-                    </h1>
-                    <p className="text-gray-600 mb-4">
-                        Sprint 5 - Lecteur à venir
-                    </p>
-                    <button
-                        className="px-4 py-2 border rounded"
-                        onClick={handleBack}
-                    >
-                        Retour
-                    </button>
-                </div>
+                <PlayerView
+                    key={currentDictationId}
+                    dictationId={currentDictationId}
+                    onBack={handleBack}
+                />
             </div>
         );
     }

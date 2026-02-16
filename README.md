@@ -112,6 +112,17 @@ src/
 - **de-DE** : Allemand (Allemagne)
 - **it-IT** : Italien (Italie)
 
+### Mode Élève
+
+- ✅ Liste des dictées disponibles (bibliothèque locale)
+- ✅ Lecteur de dictée avec :
+    - Lecture phrase par phrase
+    - Synthèse vocale (navigateur compatible)
+    - Saisie de la phrase par l'élève
+    - Correction simple (exact / différent)
+    - Navigation entre phrases
+    - Option d'affichage de la phrase (soutien)
+
 ## Limitations connues
 
 - Stockage localStorage limité (~5-10 Mo selon navigateurs)
@@ -127,10 +138,10 @@ src/
 - **Sprint 2** : Navigation SPA et sélection du mode
 - **Sprint 3** : Bibliothèque enseignant avec CRUD
 - **Sprint 4** : Éditeur de dictée avec validation
+- **Sprint 5** : Lecteur de dictée avec synthèse vocale
 
 ### À venir
 
-- **Sprint 5** : Lecteur de dictée avec synthèse vocale
 - **Sprint 6** : Import/export fichiers Markdown
 - **Sprint 7** : Import depuis cloud (CodiMD, Dropbox, etc.)
 - **Sprint 8** : Migration anciens liens micetf.fr/dictee
