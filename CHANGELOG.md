@@ -4,6 +4,46 @@ Toutes les modifications notables du projet seront documentées ici.
 
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/).
 
+## [Sprint 14] - 2026-02-18
+
+### Navbar MiCetF et cartes de dictées
+
+#### Ajouté
+
+- **Barre de navigation MiCetF**
+
+    - Composant `Navbar.jsx` aligné visuellement sur micetf.fr
+    - Lien `MiCetF` vers la page d’accueil du site
+    - Titre de l’outil : « Dictée Markdown »
+    - Bouton PayPal (don) avec icône cœur
+    - Bouton de contact (mail webmaster)
+
+- **Vue élève en cartes**
+
+    - Affichage des dictées locales en cartes responsives (grille 1–2 colonnes)
+    - Chaque carte affiche le titre, le nombre de phrases et la langue
+    - Grande zone cliquable pour démarrer la dictée
+
+- **Vue enseignant en cartes (bibliothèque)**
+    - Bibliothèque enseignant organisée en grille de cartes (`DictationCard`)
+    - Mise en page plus lisible sur écran large, tout en restant adaptée au mobile
+
+#### Modifié
+
+- **App.jsx**
+
+    - Intégration globale de la barre de navigation en haut de l’application
+    - Vue élève : remplacement de la liste simple par une grille de cartes
+
+- **TeacherHome.jsx**
+    - Affichage des dictées en grille (2 colonnes sur desktop) au lieu d’une liste verticale
+
+#### Pédagogique / Terrain
+
+- Interface plus lisible et rassurante pour les élèves en situation de test sur PC
+- Cohérence graphique avec les autres outils micetf.fr (repères visuels conservés)
+- Meilleure vue d’ensemble de la bibliothèque pour l’enseignant, facilitant le choix de dictée
+
 ## [Sprint 13] - 2026-02-18
 
 ### Ponctuation et majuscules selon le type de dictée

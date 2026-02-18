@@ -213,7 +213,7 @@ function ResultsView({ dictation, results, onRestart, onBack }) {
 
                 {/* Pied de page ultra-compact */}
                 <div className="hidden print:block mt-2 text-center text-[7pt] text-gray-500">
-                    Dictée Markdown • {dictation.language}
+                    Dictée (V1) • {dictation.language}
                 </div>
             </div>
 

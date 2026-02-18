@@ -300,7 +300,7 @@ function TeacherHome({ onCreateNew, onEdit, onPlay, onBack, onNavigate }) {
                     )}
                 </div>
             ) : (
-                <div className="space-y-3">
+                <div className="grid gap-4 md:grid-cols-2">
                     {filteredDictations.map((dictation) => (
                         <DictationCard
                             key={dictation.id}

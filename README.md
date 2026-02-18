@@ -1,4 +1,4 @@
-# Dictée Markdown - V0
+# Dictée - V1
 
 Application web pour créer et pratiquer des dictées à l'école primaire (cycles 1 à 3).
 
@@ -96,6 +96,7 @@ src/
 │   ├── useSpeechSynthesis.js # Synthèse vocale
 │   └── useAvailableVoices.js # Détection voix disponibles
 ├── components/                # Composants React
+│   ├── Navbar.jsx           # Barre de navigation micetf.fr
 │   ├── ModeSelector.jsx      # Choix enseignant/élève
 │   ├── TeacherHome.jsx       # Bibliothèque enseignant
 │   ├── DictationCard.jsx     # Carte de dictée
@@ -133,6 +134,7 @@ src/
 - ✅ Compteur de phrases en temps réel
 - ✅ Détection modifications non sauvegardées
 - ✅ Choix du type de dictée (phrases / mots) avec comportement adapté de la correction.
+- 📚 Bibliothèque présentée sous forme de cartes (vue enseignant)
 
 #### Sélection de langue intelligente
 
@@ -168,6 +170,7 @@ src/
 - ✅ Comparaison erreur/correction côte à côte
 - ✅ Messages d'encouragement contextuels (3 niveaux)
 - ✅ Alerte si langue non disponible sur l'appareil
+- 🧩 Sélection des dictées sous forme de cartes cliquables
 
 #### Système d'évaluation à 3 étoiles
 

@@ -7,6 +7,7 @@ import PlayerView from "./components/PlayerView";
 import VoicesDebugView from "./components/VoicesDebugView";
 import { useUrlParams } from "./hooks/useUrlParams";
 import { listDictations } from "./services/storage";
+import Navbar from "./components/Navbar.jsx";
 
 /**
  * Composant racine de l'application
@@ -124,6 +125,7 @@ function App() {
     if (!mode || view === "home") {
         return (
             <div className="app-container">
+                <Navbar />
                 <ModeSelector onSelectMode={handleSelectMode} />
             </div>
         );
@@ -133,6 +135,7 @@ function App() {
     if (view === "teacher") {
         return (
             <div className="app-container">
+                <Navbar />
                 <TeacherHome
                     key={refreshKey} // Force le re-render quand refreshKey change
                     onCreateNew={handleCreateNew}
@@ -149,41 +152,61 @@ function App() {
     }
 
     // Vue : Mode élève
+    // Dans App.jsx, vue élève
     if (view === "student") {
         const dictations = listDictations();
+
         return (
             <div className="app-container">
+                <Navbar />
                 <div className="view-container fade-in">
-                    <h1 className="text-2xl font-bold mb-4">Mes dictées</h1>
+                    {" "}
+                    <div className="mb-6">
+                        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <h1 className="text-2xl font-bold mb-4">
+                                Mes dictées
+                            </h1>
+                            <button
+                                className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                                onClick={() => setView("home")}
+                            >
+                                ← Retour à l'accueil
+                            </button>
+                        </div>
+                    </div>
                     {dictations.length === 0 ? (
                         <p className="text-gray-600">
-                            Aucune dictée disponible pour l'instant.
+                            Aucune dictée disponible pour l’instant.
                         </p>
                     ) : (
-                        <ul className="space-y-2">
+                        <div className="grid gap-4 sm:grid-cols-2">
                             {dictations.map((d) => (
-                                <li key={d.id}>
-                                    <button
-                                        className="w-full text-left border rounded p-3 hover:bg-gray-100"
-                                        onClick={() => handlePlay(d.id)}
-                                    >
-                                        <div className="font-semibold">
+                                <button
+                                    key={d.id}
+                                    onClick={() => handlePlay(d.id)}
+                                    className="text-left bg-white rounded-lg shadow-sm border hover:shadow-md hover:border-blue-300 transition p-4 flex flex-col justify-between h-full"
+                                >
+                                    <div>
+                                        <h2 className="text-lg font-semibold text-gray-900 mb-1">
                                             {d.title || "Sans titre"}
-                                        </div>
-                                        <div className="text-sm text-gray-500">
-                                            {d.sentences.length} phrase(s)
-                                        </div>
-                                    </button>
-                                </li>
+                                        </h2>
+                                        <p className="text-sm text-gray-600">
+                                            {d.sentences.length} phrase
+                                            {d.sentences.length > 1 ? "s" : ""}
+                                        </p>
+                                        <p className="text-xs text-gray-500 mt-1">
+                                            Langue : {d.language}
+                                        </p>
+                                    </div>
+                                    <div className="mt-3">
+                                        <span className="inline-flex items-center justify-center px-3 py-1 text-sm font-medium bg-blue-600 text-white rounded-full">
+                                            Démarrer la dictée
+                                        </span>
+                                    </div>
+                                </button>
                             ))}
-                        </ul>
+                        </div>
                     )}
-                    <button
-                        className="mt-4 px-4 py-2 border rounded"
-                        onClick={() => setView("home")}
-                    >
-                        Retour
-                    </button>
                 </div>
             </div>
         );
@@ -193,6 +216,7 @@ function App() {
     if (view === "editor") {
         return (
             <div className="app-container">
+                <Navbar />
                 <EditorView
                     dictationId={currentDictationId}
                     onBack={handleBack}
@@ -223,6 +247,7 @@ function App() {
     if (view === "player") {
         return (
             <div className="app-container">
+                <Navbar />
                 <PlayerView
                     key={currentDictationId}
                     dictationId={currentDictationId}
@@ -235,13 +260,19 @@ function App() {
     //  Vue : Diagnostic des voix
     {
         if (view === "voices-debug") {
-            return <VoicesDebugView onBack={handleBack} />;
+            return (
+                <div className="app-container">
+                    <Navbar />
+                    <VoicesDebugView onBack={handleBack} />;
+                </div>
+            );
         }
     }
 
     // Fallback
     return (
         <div className="app-container">
+            <Navbar />
             <div className="view-container">
                 <p>État inattendu : {view}</p>
                 <button
