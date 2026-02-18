@@ -7,7 +7,7 @@ function ModeSelector({ onSelectMode }) {
         <div className="min-h-screen flex flex-col items-center justify-center gap-8 p-4 fade-in">
             <div className="text-center space-y-2">
                 <h1 className="text-4xl md:text-5xl font-bold text-gray-800">
-                    Dictée (V1)
+                    Je crée mes dictées
                 </h1>
                 <p className="text-gray-600 text-lg">
                     Créez et pratiquez des dictées facilement
