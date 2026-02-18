@@ -6,6 +6,11 @@
 const MAX_URL_LENGTH = 2000; // Limite navigateurs
 const MAX_PHRASES_ENCODAGE = 20; // Limite recommandée
 
+function getAppBaseUrl() {
+    const base = import.meta.env.BASE_URL || "/";
+    const normalizedBase = base.endsWith("/") ? base.slice(0, -1) : base;
+    return window.location.origin + normalizedBase;
+}
 /**
  * Encode une dictée en base64 pour inclusion dans URL
  * @param {Object} dictation - Dictée à encoder
@@ -56,7 +61,7 @@ export function decodeDictation(encoded) {
  * @param {string} baseUrl - URL de base de l'application
  * @returns {Object} { url, success, error, tooLong }
  */
-export function generateShareLink(dictation, baseUrl = window.location.origin) {
+export function generateShareLink(dictation, baseUrl = getAppBaseUrl()) {
     // Vérification limite phrases
     if (dictation.sentences.length > MAX_PHRASES_ENCODAGE) {
         return {
@@ -94,10 +99,7 @@ export function generateShareLink(dictation, baseUrl = window.location.origin) {
  * @param {string} baseUrl - URL de base de l'application
  * @returns {string} Lien de partage
  */
-export function generateCloudShareLink(
-    cloudUrl,
-    baseUrl = window.location.origin
-) {
+export function generateCloudShareLink(cloudUrl, baseUrl = getAppBaseUrl()) {
     const encoded = encodeURIComponent(cloudUrl);
     return `${baseUrl}/?cloud=${encoded}`;
 }
