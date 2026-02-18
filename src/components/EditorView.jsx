@@ -221,7 +221,52 @@ function EditorView({ dictationId, onBack, onSave }) {
                             </p>
                         )}
                     </div>
-
+                    {/* Type de dictée */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Type de dictée
+                        </label>
+                        <div className="space-y-2">
+                            <label className="flex items-center gap-2 text-sm">
+                                <input
+                                    type="radio"
+                                    name="dictationType"
+                                    value="sentences"
+                                    checked={dictation.type === "sentences"}
+                                    onChange={() =>
+                                        setDictation({
+                                            ...dictation,
+                                            type: "sentences",
+                                        })
+                                    }
+                                />
+                                <span>
+                                    Dictée de phrases (ponctuation évaluée)
+                                </span>
+                            </label>
+                            <label className="flex items-center gap-2 text-sm">
+                                <input
+                                    type="radio"
+                                    name="dictationType"
+                                    value="words"
+                                    checked={dictation.type === "words"}
+                                    onChange={() =>
+                                        setDictation({
+                                            ...dictation,
+                                            type: "words",
+                                        })
+                                    }
+                                />
+                                <span>
+                                    Dictée de mots (ponctuation ignorée)
+                                </span>
+                            </label>
+                        </div>
+                        <p className="mt-1 text-xs text-gray-500">
+                            Utilisez « dictée de mots » pour les listes de mots
+                            invariables, sons, etc.
+                        </p>
+                    </div>
                     {/* Phrases */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">

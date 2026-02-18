@@ -4,6 +4,54 @@ Toutes les modifications notables du projet seront documentées ici.
 
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/).
 
+## [Sprint 13] - 2026-02-18
+
+### Ponctuation et majuscules selon le type de dictée
+
+#### Ajouté
+
+- **Type de dictée dans le modèle**
+
+    - Champ `type` ajouté au modèle de dictée (`sentences` ou `words`)
+    - `createEmptyDictee()` initialise `type: "sentences"`
+    - Normalisation du `type` lors du chargement/sauvegarde dans `storage.js`
+
+- **Support du type dans le format Markdown**
+
+    - Nouvelle métadonnée `type` dans le front matter YAML (`words` ou `sentences`)
+    - `parseMarkdown()` lit et normalise `type` (fallback `sentences` si absent/incorrect)
+    - `generateMarkdown()` écrit systématiquement le `type` dans le front matter
+
+- **Correction différenciée mots / phrases**
+
+    - Fonction `isAnswerCorrect(answer, expected, type)` dans `utils/textComparison.js`
+    - Mode `words` : casse ignorée, ponctuation de bord ignorée (ex : `Paris,` ≡ `paris`)
+    - Mode `sentences` : casse et ponctuation significatives, espaces normalisés uniquement
+
+- **Choix du type dans l’éditeur**
+    - Nouveau bloc dans `EditorView` : radio-buttons “Dictée de phrases” / “Dictée de mots”
+    - Aide sous le champ pour orienter l’enseignant (listes de mots invariables, sons, etc.)
+    - Persistance du type lors de l’édition et de la duplication
+
+#### Modifié
+
+- **PlayerView**
+
+    - Remplacement de `areTextsEqual()` par `isAnswerCorrect()` pour la validation des réponses
+    - Comportement :
+        - Dictée de phrases : oubli de majuscule ou de point final = erreur
+        - Dictée de mots : majuscules et ponctuation non pénalisantes
+
+- **storage.js**
+    - Normalisation des dictées existantes au chargement (`type` manquant → `sentences`)
+    - Mise à jour des dictées par défaut avec un `type` explicite
+
+#### Pédagogique / Terrain
+
+- Alignement avec la distinction **orthographe lexicale** (dictées de mots) vs **orthographe grammaticale / ponctuation** (dictées de phrases)
+- Permet d’éviter de sanctionner la ponctuation en dictée de mots tout en l’évaluant en dictée de phrases
+- Contrat de tâche plus lisible pour les élèves et les enseignants
+
 ## [Sprint 12] - 2026-02-18
 
 ### Partage de dictées (liens encodés et cloud)

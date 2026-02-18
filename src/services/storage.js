@@ -46,6 +46,10 @@ function loadDefaultDictations() {
         title: dict.title,
         language: dict.language,
         sentences: dict.sentences,
+        type:
+            dict.type === "words" || dict.type === "sentences"
+                ? dict.type
+                : "sentences",
         markdown: "", // Sera régénéré si besoin
         createdAt: now + index, // Décalage pour ordre stable
         updatedAt: now + index,
@@ -82,7 +86,16 @@ export function listDictations() {
         }
 
         const parsed = JSON.parse(stored);
-        return Array.isArray(parsed) ? parsed : [];
+        const normalized = Array.isArray(parsed)
+            ? parsed.map((d) => ({
+                  ...d,
+                  type:
+                      d.type === "words" || d.type === "sentences"
+                          ? d.type
+                          : "sentences",
+              }))
+            : [];
+        return normalized;
     } catch (error) {
         console.error("Erreur lecture localStorage:", error);
         return [];
@@ -95,7 +108,14 @@ export function listDictations() {
  * @returns {Object|null} Dictée ou null si non trouvée
  */
 export function getDictation(id) {
-    return loadAllRaw().find((d) => d.id === id) ?? null;
+    const d = loadAllRaw().find((d) => d.id === id) ?? null;
+    if (!d) return null;
+
+    return {
+        ...d,
+        type:
+            d.type === "words" || d.type === "sentences" ? d.type : "sentences",
+    };
 }
 
 /**
@@ -105,8 +125,15 @@ export function getDictation(id) {
 export function saveDictation(dictation) {
     const all = loadAllRaw();
     const idx = all.findIndex((d) => d.id === dictation.id);
+
+    const normalizedType =
+        dictation.type === "words" || dictation.type === "sentences"
+            ? dictation.type
+            : "sentences";
+
     const updated = {
         ...dictation,
+        type: normalizedType,
         updatedAt: Date.now(),
     };
 

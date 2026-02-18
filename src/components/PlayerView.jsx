@@ -2,7 +2,7 @@ import { useEffect, useState, startTransition } from "react";
 import { getDictation } from "../services/storage";
 import { useSpeechSynthesis } from "../hooks/useSpeechSynthesis";
 import { useAvailableVoices } from "../hooks/useAvailableVoices";
-import { areTextsEqual } from "../utils/textComparison";
+import { isAnswerCorrect } from "../utils/textComparison";
 import ResultsView from "./ResultsView";
 
 /**
@@ -89,7 +89,11 @@ function PlayerView({ dictationId, sharedDictation, onBack }) {
             return;
         }
 
-        const isCorrect = areTextsEqual(inputValue, currentSentence);
+        const isCorrect = isAnswerCorrect(
+            inputValue,
+            currentSentence,
+            dictation?.type || "sentences"
+        );
 
         // Enregistrer la tentative
         const newAttempt = {

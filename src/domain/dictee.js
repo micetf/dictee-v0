@@ -8,6 +8,7 @@ export function createEmptyDictee() {
         title: "",
         language: "fr-FR",
         sentences: [],
+        type: "sentences", // "sentences" | "words"
         createdAt: Date.now(),
         updatedAt: Date.now(),
     };
@@ -25,6 +26,7 @@ export function isValidDictee(dictee) {
         typeof dictee.title === "string" &&
         typeof dictee.language === "string" &&
         Array.isArray(dictee.sentences) &&
+        (dictee.type === "sentences" || dictee.type === "words") &&
         typeof dictee.createdAt === "number" &&
         typeof dictee.updatedAt === "number"
     );

@@ -132,6 +132,7 @@ src/
 - ✅ Tri par date de modification
 - ✅ Compteur de phrases en temps réel
 - ✅ Détection modifications non sauvegardées
+- ✅ Choix du type de dictée (phrases / mots) avec comportement adapté de la correction.
 
 #### Sélection de langue intelligente
 
@@ -400,6 +401,9 @@ Les poules pondent des œufs.
 - Une phrase par ligne (hors front matter)
 - Lignes vides ignorées
 - Encodage UTF-8
+- Champ optionnel `type` :
+    - `sentences` : dictée de phrases (ponctuation et majuscules évaluées)
+    - `words` : dictée de mots (ponctuation ignorée, casse non pénalisante)
 
 Voir `docs/FORMAT_MARKDOWN.md` pour plus de détails.
 

@@ -51,6 +51,7 @@ export function parseMarkdown(markdownContent) {
 
         const key = trimmed.substring(0, colonIndex).trim();
         const value = trimmed.substring(colonIndex + 1).trim();
+
         metadata[key] = value;
     }
 
@@ -58,8 +59,18 @@ export function parseMarkdown(markdownContent) {
     if (!metadata.title) {
         throw new Error("Métadonnée 'title' manquante dans le front matter");
     }
+
     if (!metadata.language) {
         throw new Error("Métadonnée 'language' manquante dans le front matter");
+    }
+
+    // Gérer le type (optionnel, avec fallback)
+    let type = "sentences";
+    if (metadata.type) {
+        const normalized = String(metadata.type).toLowerCase();
+        if (normalized === "words" || normalized === "sentences") {
+            type = normalized;
+        }
     }
 
     // Parser les phrases (après le front matter)
@@ -75,6 +86,7 @@ export function parseMarkdown(markdownContent) {
     return {
         title: metadata.title,
         language: metadata.language,
+        type,
         sentences,
     };
 }
@@ -89,7 +101,7 @@ export function generateMarkdown(dictation) {
         throw new Error("Dictée invalide");
     }
 
-    const { title, language, sentences } = dictation;
+    const { title, language, sentences, type } = dictation;
 
     if (
         !title ||
@@ -102,11 +114,18 @@ export function generateMarkdown(dictation) {
         );
     }
 
+    // Normalisation du type pour l'export
+    let exportedType = "sentences";
+    if (type === "words" || type === "sentences") {
+        exportedType = type;
+    }
+
     // Construire le front matter
     const frontMatter = [
         "---",
         `title: ${title}`,
         `language: ${language}`,
+        `type: ${exportedType}`,
         "---",
         "", // ligne vide après le front matter
     ].join("\n");

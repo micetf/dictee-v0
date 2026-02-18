@@ -3,12 +3,12 @@
  */
 
 /**
- * Normalise un texte pour comparaison
+ * Normalise un texte pour comparaison (base)
  * @param {string} text - Texte à normaliser
  * @returns {string} Texte normalisé
  */
 export function normalizeText(text) {
-    return text.toLowerCase().trim().replace(/\s+/g, " "); // Espaces multiples → espace unique
+    return text.trim().replace(/\s+/g, " "); // Espaces multiples → espace unique
 }
 
 /**
@@ -25,7 +25,7 @@ export function areTextsEqual(text1, text2) {
  * Identifie les mots différents entre deux textes
  * @param {string} userText - Texte de l'utilisateur
  * @param {string} expectedText - Texte attendu
- * @returns {Array} Tableau d'objets {word, isCorrect, expected}
+ * @returns {Array} Tableau d'objets {user, expected, isCorrect, index}
  */
 export function compareWords(userText, expectedText) {
     const userWords = normalizeText(userText).split(" ");
@@ -47,4 +47,38 @@ export function compareWords(userText, expectedText) {
     }
 
     return comparison;
+}
+
+/**
+ * Normalisation spéciale pour le mode "mots" :
+ * on ignore la ponctuation en début/fin de chaîne.
+ * @param {string} text
+ * @returns {string}
+ */
+function normalizeForWordMode(text) {
+    const base = normalizeText(text).toLowerCase();
+    return base
+        .replace(/^[.,;:!?«»"()[\]]+/g, "")
+        .replace(/[.,;:!?«»"()[\]]+$/g, "");
+}
+
+/**
+ * Compare une réponse en tenant compte du type de dictée.
+ * @param {string} answer
+ * @param {string} expected
+ * @param {"sentences"|"words"} type
+ * @returns {boolean}
+ */
+export function isAnswerCorrect(answer, expected, type = "sentences") {
+    if (type === "words") {
+        const normAnswer = normalizeForWordMode(answer);
+        const normExpected = normalizeForWordMode(expected);
+        return normAnswer === normExpected;
+    }
+
+    // Mode phrases : casse et ponctuation comptent,
+    // on ne normalise que les espaces.
+    const normAnswer = normalizeText(answer);
+    const normExpected = normalizeText(expected);
+    return normAnswer === normExpected;
 }

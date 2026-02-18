@@ -20,6 +20,7 @@ export const DEFAULT_DICTATIONS = [
             "non",
             "oui",
         ],
+        type: "words",
     },
     {
         title: "Mots invariables CP-2",
@@ -38,6 +39,7 @@ export const DEFAULT_DICTATIONS = [
             "très",
             "trop",
         ],
+        type: "words",
     },
     {
         title: "Mots invariables CE1-1",
@@ -56,6 +58,7 @@ export const DEFAULT_DICTATIONS = [
             "beaucoup",
             "bien",
         ],
+        type: "words",
     },
     {
         title: "Mots invariables CE1-2",
@@ -74,6 +77,7 @@ export const DEFAULT_DICTATIONS = [
             "dessus",
             "devant",
         ],
+        type: "words",
     },
     {
         title: "Mots invariables CE1-3",
@@ -92,6 +96,7 @@ export const DEFAULT_DICTATIONS = [
             "parfois",
             "pendant",
         ],
+        type: "words",
     },
     {
         title: "Mots invariables CE1-4",
@@ -110,6 +115,7 @@ export const DEFAULT_DICTATIONS = [
             "trop",
             "voilà",
         ],
+        type: "words",
     },
     {
         title: "Les mois de l'année",
@@ -128,6 +134,7 @@ export const DEFAULT_DICTATIONS = [
             "novembre",
             "décembre",
         ],
+        type: "words",
     },
     {
         title: "The months of the year",
@@ -146,5 +153,6 @@ export const DEFAULT_DICTATIONS = [
             "November",
             "December",
         ],
+        type: "sentences",
     },
 ];
