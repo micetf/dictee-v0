@@ -1,5 +1,5 @@
 // src/components/Navbar.jsx
-export default function Navbar() {
+export default function Navbar({ onHelp }) {
     return (
         <>
             <nav className="fixed top-0 left-0 right-0 bg-gray-800 shadow-lg z-50">
@@ -57,6 +57,16 @@ export default function Navbar() {
 
                             {/* Boutons PayPal + contact */}
                             <ul className="flex items-center space-x-2">
+                                <li>
+                                    <button
+                                        type="button"
+                                        onClick={onHelp}
+                                        className="w-10 h-10 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition font-bold text-lg"
+                                        title="Aide"
+                                    >
+                                        ?
+                                    </button>
+                                </li>
                                 <li>
                                     <form
                                         action="https://www.paypal.com/cgi-bin/webscr"

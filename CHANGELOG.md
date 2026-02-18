@@ -4,6 +4,40 @@ Toutes les modifications notables du projet seront documentées ici.
 
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/).
 
+## [Sprint 15] - 2026-02-18
+
+### Aide contextuelle et amélioration de la bibliothèque
+
+#### Ajouté
+
+- Système d’aide contextuelle
+
+    - Bouton « ? » dans la barre de navigation
+    - Composant `HelpModal.jsx` avec contenus différenciés selon le mode (accueil, enseignant, élève)
+    - Fichier `helpContent.js` centralisant les textes d’aide (didactique et prise en main)
+
+- Actions de dictée en bas de carte
+
+    - Refonte de `DictationCard.jsx` avec barre d’actions horizontale en bas de la carte
+    - Boutons clairs : Jouer, Partager, Modifier, Dupliquer, Exporter, Supprimer
+    - Affichage du type de dictée (mots / phrases) sur chaque carte
+
+- Duplication de dictée
+    - Fonction `duplicateDictation(id)` utilisée dans `TeacherHome`
+    - Bouton « Dupliquer » sur chaque dictée pour créer rapidement une variante
+
+#### Modifié
+
+- `TeacherHome.jsx`
+    - Affichage en grille de cartes avec barre d’actions en pied de carte
+    - Intégration de la duplication dans le flux enseignant (création de versions A/B)
+
+#### Pédagogique / Terrain
+
+- L’aide contextuelle accompagne l’enseignant et l’élève dans chaque vue clé, en expliquant les objectifs pédagogiques (dictée de mots vs dictée de phrases, usage en entraînement / évaluation formative).
+- La barre d’actions en bas de carte rend la bibliothèque plus lisible et plus rapide à utiliser en situation de classe.
+- La duplication facilite la différenciation (mêmes contenus, niveaux de difficulté variés).
+
 ## [Sprint 14] - 2026-02-18
 
 ### Navbar MiCetF et cartes de dictées

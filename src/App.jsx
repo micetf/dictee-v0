@@ -8,6 +8,7 @@ import VoicesDebugView from "./components/VoicesDebugView";
 import { useUrlParams } from "./hooks/useUrlParams";
 import { listDictations } from "./services/storage";
 import Navbar from "./components/Navbar.jsx";
+import HelpModal from "./components/HelpModal";
 
 /**
  * Composant racine de l'application
@@ -22,7 +23,10 @@ function App() {
 
     // ✅ AJOUTER - vue dérivée calculée au rendu, sans setState
     const isSharedDictation = !urlParams.loading && !!urlParams.dictation;
+    const [isHelpOpen, setIsHelpOpen] = useState(false);
 
+    const handleOpenHelp = () => setIsHelpOpen(true);
+    const handleCloseHelp = () => setIsHelpOpen(false);
     /**
      * Gère la sélection du mode utilisateur
      */
@@ -86,6 +90,12 @@ function App() {
                         Connexion au cloud en cours
                     </p>
                 </div>
+                <HelpModal
+                    isOpen={isHelpOpen}
+                    onClose={handleCloseHelp}
+                    mode={mode}
+                    view={view}
+                />
             </div>
         );
     }
@@ -107,6 +117,12 @@ function App() {
                         Retour à l'accueil
                     </button>
                 </div>
+                <HelpModal
+                    isOpen={isHelpOpen}
+                    onClose={handleCloseHelp}
+                    mode={mode}
+                    view={view}
+                />
             </div>
         );
     }
@@ -114,19 +130,33 @@ function App() {
     // Dictée partagée prête → PlayerView direct, SANS toucher aux états
     if (isSharedDictation) {
         return (
-            <PlayerView
-                dictationId="shared"
-                sharedDictation={urlParams.dictation}
-                onBack={() => (window.location.href = "/")}
-            />
+            <>
+                <PlayerView
+                    dictationId="shared"
+                    sharedDictation={urlParams.dictation}
+                    onBack={() => (window.location.href = "/")}
+                />
+                <HelpModal
+                    isOpen={isHelpOpen}
+                    onClose={handleCloseHelp}
+                    mode={mode}
+                    view={view}
+                />
+            </>
         );
     }
     // Vue : Sélection du mode
     if (!mode || view === "home") {
         return (
             <div className="app-container">
-                <Navbar />
+                <Navbar onHelp={handleOpenHelp} />
                 <ModeSelector onSelectMode={handleSelectMode} />
+                <HelpModal
+                    isOpen={isHelpOpen}
+                    onClose={handleCloseHelp}
+                    mode={mode}
+                    view={view}
+                />
             </div>
         );
     }
@@ -135,7 +165,7 @@ function App() {
     if (view === "teacher") {
         return (
             <div className="app-container">
-                <Navbar />
+                <Navbar onHelp={handleOpenHelp} />
                 <TeacherHome
                     key={refreshKey} // Force le re-render quand refreshKey change
                     onCreateNew={handleCreateNew}
@@ -146,6 +176,12 @@ function App() {
                         setView("home");
                     }}
                     onNavigate={handleNavigate}
+                />
+                <HelpModal
+                    isOpen={isHelpOpen}
+                    onClose={handleCloseHelp}
+                    mode={mode}
+                    view={view}
                 />
             </div>
         );
@@ -158,7 +194,7 @@ function App() {
 
         return (
             <div className="app-container">
-                <Navbar />
+                <Navbar onHelp={handleOpenHelp} />
                 <div className="view-container fade-in">
                     {" "}
                     <div className="mb-6">
@@ -208,6 +244,12 @@ function App() {
                         </div>
                     )}
                 </div>
+                <HelpModal
+                    isOpen={isHelpOpen}
+                    onClose={handleCloseHelp}
+                    mode={mode}
+                    view={view}
+                />
             </div>
         );
     }
@@ -216,13 +258,19 @@ function App() {
     if (view === "editor") {
         return (
             <div className="app-container">
-                <Navbar />
+                <Navbar onHelp={handleOpenHelp} />
                 <EditorView
                     dictationId={currentDictationId}
                     onBack={handleBack}
                     onSave={(savedDictation) => {
                         console.log("Dictée sauvegardée:", savedDictation);
                     }}
+                />
+                <HelpModal
+                    isOpen={isHelpOpen}
+                    onClose={handleCloseHelp}
+                    mode={mode}
+                    view={view}
                 />
             </div>
         );
@@ -247,11 +295,17 @@ function App() {
     if (view === "player") {
         return (
             <div className="app-container">
-                <Navbar />
+                <Navbar onHelp={handleOpenHelp} />
                 <PlayerView
                     key={currentDictationId}
                     dictationId={currentDictationId}
                     onBack={handleBack}
+                />
+                <HelpModal
+                    isOpen={isHelpOpen}
+                    onClose={handleCloseHelp}
+                    mode={mode}
+                    view={view}
                 />
             </div>
         );
@@ -262,8 +316,14 @@ function App() {
         if (view === "voices-debug") {
             return (
                 <div className="app-container">
-                    <Navbar />
-                    <VoicesDebugView onBack={handleBack} />;
+                    <Navbar onHelp={handleOpenHelp} />
+                    <VoicesDebugView onBack={handleBack} />
+                    <HelpModal
+                        isOpen={isHelpOpen}
+                        onClose={handleCloseHelp}
+                        mode={mode}
+                        view={view}
+                    />
                 </div>
             );
         }
@@ -272,7 +332,7 @@ function App() {
     // Fallback
     return (
         <div className="app-container">
-            <Navbar />
+            <Navbar onHelp={handleOpenHelp} />
             <div className="view-container">
                 <p>État inattendu : {view}</p>
                 <button
@@ -285,6 +345,12 @@ function App() {
                     Retour à l'accueil
                 </button>
             </div>
+            <HelpModal
+                isOpen={isHelpOpen}
+                onClose={handleCloseHelp}
+                mode={mode}
+                view={view}
+            />
         </div>
     );
 }

@@ -134,7 +134,8 @@ src/
 - ✅ Compteur de phrases en temps réel
 - ✅ Détection modifications non sauvegardées
 - ✅ Choix du type de dictée (phrases / mots) avec comportement adapté de la correction.
-- 📚 Bibliothèque présentée sous forme de cartes (vue enseignant)
+- 📚 Bibliothèque de dictées présentée sous forme de cartes avec barre d’actions (jouer, partager, modifier, dupliquer, exporter, supprimer)
+- ❔ Aide contextuelle accessible depuis la barre de navigation (explications ciblées selon la vue)
 
 #### Sélection de langue intelligente
 
@@ -170,7 +171,7 @@ src/
 - ✅ Comparaison erreur/correction côte à côte
 - ✅ Messages d'encouragement contextuels (3 niveaux)
 - ✅ Alerte si langue non disponible sur l'appareil
-- 🧩 Sélection des dictées sous forme de cartes cliquables
+- 🧩 Écran de sélection des dictées en cartes cliquables, avec aide intégrée pour expliquer le fonctionnement de la dictée
 
 #### Système d'évaluation à 3 étoiles
 

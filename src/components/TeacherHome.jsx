@@ -3,6 +3,7 @@ import {
     listDictations,
     deleteDictation,
     resetToDefaultDictations,
+    duplicateDictation,
 } from "../services/storage";
 import DictationCard from "./DictationCard";
 import { generateMarkdown } from "../services/markdown";
@@ -38,12 +39,21 @@ function TeacherHome({ onCreateNew, onEdit, onPlay, onBack, onNavigate }) {
         deleteDictation(id);
         refreshDictations();
     };
+
     const handleReset = () => {
         const success = resetToDefaultDictations();
         if (success) {
             refreshDictations();
         }
     };
+
+    const handleDuplicate = (id) => {
+        const newId = duplicateDictation(id);
+        if (newId) {
+            refreshDictations();
+        }
+    };
+
     // Filtrage par recherche
     const filteredDictations = dictations.filter((d) => {
         const query = searchQuery.toLowerCase();
@@ -309,6 +319,7 @@ function TeacherHome({ onCreateNew, onEdit, onPlay, onBack, onNavigate }) {
                             onPlay={onPlay}
                             onDelete={handleDelete}
                             onExport={handleExport}
+                            onDuplicate={handleDuplicate}
                         />
                     ))}
                 </div>
