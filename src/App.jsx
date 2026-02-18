@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./App.css";
 import ModeSelector from "./components/ModeSelector";
 import TeacherHome from "./components/TeacherHome";
 import EditorView from "./components/EditorView";
 import PlayerView from "./components/PlayerView";
 import VoicesDebugView from "./components/VoicesDebugView";
+import { useUrlParams } from "./hooks/useUrlParams";
 import { listDictations } from "./services/storage";
 
 /**
@@ -12,22 +13,14 @@ import { listDictations } from "./services/storage";
  * Gère la navigation SPA sans router
  */
 function App() {
+    const urlParams = useUrlParams();
     const [mode, setMode] = useState(null); // "teacher" | "student" | null
     const [view, setView] = useState("home"); // "home" | "teacher" | "student" | "editor" | "player"
     const [currentDictationId, setCurrentDictationId] = useState(null);
     const [refreshKey, setRefreshKey] = useState(0); // Clé pour forcer le refresh
 
-    // Détection paramètres URL pour liens directs (futur import cloud)
-    useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        const sourceUrl = params.get("source");
-        const legacyUrl = params.get("legacy");
-
-        if (sourceUrl || legacyUrl) {
-            // TODO Sprint 6+ : import automatique
-            console.log("Import détecté:", { sourceUrl, legacyUrl });
-        }
-    }, []);
+    // ✅ AJOUTER - vue dérivée calculée au rendu, sans setState
+    const isSharedDictation = !urlParams.loading && !!urlParams.dictation;
 
     /**
      * Gère la sélection du mode utilisateur
@@ -79,6 +72,54 @@ function App() {
         setView(destination);
     };
 
+    // Chargement en cours (cloud)
+    if (urlParams.loading) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <p className="text-gray-700 font-medium">
+                        Chargement de la dictée...
+                    </p>
+                    <p className="text-sm text-gray-500 mt-2">
+                        Connexion au cloud en cours
+                    </p>
+                </div>
+            </div>
+        );
+    }
+
+    // Erreur de chargement
+    if (urlParams.error) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-100 flex items-center justify-center p-4">
+                <div className="bg-white rounded-lg shadow-xl p-8 max-w-md text-center">
+                    <div className="text-6xl mb-4">⚠️</div>
+                    <h1 className="text-2xl font-bold text-gray-900 mb-4">
+                        Erreur de chargement
+                    </h1>
+                    <p className="text-gray-700 mb-6">{urlParams.error}</p>
+                    <button
+                        onClick={() => (window.location.href = "/")}
+                        className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold"
+                    >
+                        Retour à l'accueil
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    // Dictée partagée prête → PlayerView direct, SANS toucher aux états
+    if (isSharedDictation) {
+        return (
+            <PlayerView
+                dictationId="shared"
+                sharedDictation={urlParams.dictation}
+                onBack={() => (window.location.href = "/")}
+            />
+        );
+    }
     // Vue : Sélection du mode
     if (!mode || view === "home") {
         return (
@@ -163,7 +204,22 @@ function App() {
         );
     }
 
-    // Vue : Lecteur (à implémenter Sprint 5)
+    {
+        /* Vue : Lecture dictée partagée (lien direct) */
+    }
+    {
+        view === "player-shared" && urlParams.dictation && (
+            <PlayerView
+                dictationId="shared"
+                sharedDictation={urlParams.dictation}
+                onBack={() => {
+                    window.location.href = window.location.origin;
+                }}
+            />
+        );
+    }
+
+    // Vue : Lecteur
     if (view === "player") {
         return (
             <div className="app-container">

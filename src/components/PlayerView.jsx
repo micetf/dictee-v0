@@ -8,12 +8,37 @@ import ResultsView from "./ResultsView";
 /**
  * Lecteur de dictée avec système d'étoiles et mastéry learning
  */
-function PlayerView({ dictationId, onBack }) {
-    const [dictation, setDictation] = useState(null);
+function PlayerView({ dictationId, sharedDictation, onBack }) {
+    const [dictation, setDictation] = useState(() => {
+        // Si dictée partagée, l'utiliser directement
+        if (sharedDictation) {
+            return sharedDictation;
+        }
+        // Sinon, charger depuis localStorage
+        if (dictationId && dictationId !== "shared") {
+            const loaded = getDictation(dictationId);
+            return loaded || null;
+        }
+        return null;
+    });
     const [currentIndex, setCurrentIndex] = useState(0);
     const [inputValue, setInputValue] = useState("");
     const [attempts, setAttempts] = useState([]); // Tentatives pour la phrase actuelle
-    const [results, setResults] = useState([]); // Résultats de toutes les phrases
+    const [results, setResults] = useState(() => {
+        const source =
+            sharedDictation ||
+            (dictationId && dictationId !== "shared"
+                ? getDictation(dictationId)
+                : null);
+        if (source?.sentences) {
+            return source.sentences.map((sentence) => ({
+                expected: sentence,
+                attempts: [],
+                stars: 0,
+            }));
+        }
+        return [];
+    });
     const [showComparison, setShowComparison] = useState(false);
     const [isValidated, setIsValidated] = useState(false);
     const [completed, setCompleted] = useState(false);
@@ -24,7 +49,8 @@ function PlayerView({ dictationId, onBack }) {
 
     // Charger la dictée
     useEffect(() => {
-        if (!dictationId) return;
+        // Ne pas charger depuis localStorage si dictée partagée ou absente
+        if (!dictationId || dictationId === "shared" || sharedDictation) return;
 
         const d = getDictation(dictationId);
         if (!d) {
@@ -32,20 +58,16 @@ function PlayerView({ dictationId, onBack }) {
             onBack();
             return;
         }
-
-        // Regrouper tous les setState dans un seul batch
         const initialResults = d.sentences.map((sentence) => ({
             expected: sentence,
             attempts: [],
             stars: 0,
         }));
-
-        // Utiliser startTransition pour éviter le warning
         startTransition(() => {
             setDictation(d);
             setResults(initialResults);
         });
-    }, [dictationId, onBack]);
+    }, [dictationId, sharedDictation, onBack]);
 
     const { supported, speaking, speak, cancel } = useSpeechSynthesis({
         language: dictation?.language || "fr-FR",

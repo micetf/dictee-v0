@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { formatRelativeDate } from "../utils/date";
-
+import ShareModal from "./ShareModal";
 /**
  * Carte affichant une dictée dans la bibliothèque
  * @param {Object} dictation - Dictée à afficher
@@ -8,6 +9,7 @@ import { formatRelativeDate } from "../utils/date";
  * @param {Function} onDelete - Callback pour supprimer
  */
 function DictationCard({ dictation, onEdit, onPlay, onDelete, onExport }) {
+    const [showShareModal, setShowShareModal] = useState(false);
     const handleDelete = () => {
         if (
             window.confirm(
@@ -97,7 +99,32 @@ function DictationCard({ dictation, onEdit, onPlay, onDelete, onExport }) {
                             />
                         </svg>
                     </button>
-
+                    <button
+                        onClick={() => setShowShareModal(true)}
+                        className="flex-1 px-3 py-2 border border-blue-300 text-blue-700 hover:bg-blue-50 rounded text-sm font-semibold flex items-center justify-center gap-1"
+                        title="Partager cette dictée"
+                    >
+                        <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+                            />
+                        </svg>
+                        Partager
+                    </button>
+                    {showShareModal && (
+                        <ShareModal
+                            dictation={dictation}
+                            onClose={() => setShowShareModal(false)}
+                        />
+                    )}
                     <button
                         onClick={() => onEdit(dictation.id)}
                         className="flex-1 md:flex-none px-3 py-2 text-sm border border-blue-600 text-blue-600 hover:bg-blue-50 rounded font-medium transition-colors"
@@ -118,7 +145,6 @@ function DictationCard({ dictation, onEdit, onPlay, onDelete, onExport }) {
                             />
                         </svg>
                     </button>
-
                     <button
                         onClick={handleDelete}
                         className="flex-1 md:flex-none px-3 py-2 text-sm border border-red-600 text-red-600 hover:bg-red-50 rounded font-medium transition-colors"
@@ -139,7 +165,6 @@ function DictationCard({ dictation, onEdit, onPlay, onDelete, onExport }) {
                             />
                         </svg>
                     </button>
-
                     <button
                         onClick={() => onExport(dictation)}
                         className="flex-1 md:flex-none px-3 py-2 text-sm border border-gray-600 text-gray-600 hover:bg-gray-50 rounded font-medium transition-colors"
@@ -162,6 +187,12 @@ function DictationCard({ dictation, onEdit, onPlay, onDelete, onExport }) {
                     </button>
                 </div>
             </div>
+            {showShareModal && (
+                <ShareModal
+                    dictation={dictation}
+                    onClose={() => setShowShareModal(false)}
+                />
+            )}
         </div>
     );
 }

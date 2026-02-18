@@ -4,6 +4,47 @@ Toutes les modifications notables du projet seront documentées ici.
 
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/).
 
+## [Sprint 12] - 2026-02-18
+
+### Partage de dictées (liens encodés et cloud)
+
+#### Ajouté
+
+- **Partage encodé des dictées**
+    - Génération de liens courts contenant la dictée encodée (base64 URL-safe)
+    - Décodage automatique via le paramètre `?share=...` dans l’URL
+    - Ouverture directe en mode élève sans passer par la bibliothèque
+- **Partage via services cloud**
+    - Import direct de dictées stockées sur des services externes (CodiMD / HedgeDoc, Dropbox, Google Drive)
+    - Analyse et normalisation automatique des URLs de téléchargement
+    - Import cloud à partir de l’éditeur et de la bibliothèque enseignant
+- **Hook `useUrlParams`**
+    - Détection au chargement de l’application des paramètres `?share` et `?cloud`
+    - Gestion des états `idle`, `loading`, `ready`, `error` avec messages explicites
+    - Redirection automatique vers le lecteur élève pour une dictée partagée
+
+#### Modifié
+
+- **PlayerView**
+    - Prise en charge d’une dictée “partagée” sans enregistrement local
+    - Affichage du titre et de la langue provenant du lien de partage ou du cloud
+- **TeacherHome / DictationCard**
+    - Boutons de partage pour chaque dictée (lien encodé, lien cloud)
+    - Indications claires pour copier et transmettre les liens aux élèves
+
+#### Technique
+
+- Service `shareService.js` pour l’encodage/décodage des dictées
+- Service `cloudImport.js` pour la récupération de fichiers Markdown distants
+- Validation du contenu Markdown importé avant ouverture dans le lecteur
+- Gestion robuste des erreurs réseau et de format (messages adaptés aux enseignants)
+
+#### Pédagogique / Terrain
+
+- L’enseignant peut partager une dictée en un lien simple envoyé par ENT, mail ou QR code
+- Les élèves accèdent directement à la dictée sans manipulation technique
+- Compatible avec les pratiques existantes sur micetf.fr (CodiMD / HedgeDoc comme stockage)
+
 ## [Sprint 11] - 2026-02-16
 
 ### Dictées par défaut - Application prête à l'emploi

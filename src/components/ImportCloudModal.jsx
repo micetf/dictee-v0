@@ -69,9 +69,14 @@ function ImportCloudModal({ isOpen, onClose, onSuccess }) {
         setIsImporting(true);
 
         try {
+            // Si on a détecté le service, on peut normaliser l'URL
+            const normalizedSourceUrl =
+                serviceInfo?.normalizedUrl || url.trim();
+
             const newDictation = {
                 ...createEmptyDictee(),
                 ...preview,
+                sourceUrl: normalizedSourceUrl,
             };
             saveDictation(newDictation);
 

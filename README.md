@@ -278,6 +278,66 @@ src/
 
 ---
 
+### Partager une dictée (enseignant)
+
+Il existe deux manières de partager une dictée avec les élèves : **lien encodé** (tout est dans l’URL) ou **lien cloud** (fichier stocké ailleurs).
+
+#### 1. Partager avec un lien encodé
+
+1. Mode enseignant → ouvrir la bibliothèque de dictées.
+2. Sur la dictée choisie, cliquer sur **\"Partager\"** puis **\"Lien direct\"**.
+3. Copier le lien proposé (CTRL+C).
+4. Le transmettre aux élèves (ENT, mail, QR code, etc.).
+
+**Caractéristiques** :
+
+- La dictée est encodée directement dans le lien.
+- Aucune inscription ni stockage serveur nécessaire.
+- Pratique pour des dictées simples, partagées ponctuellement.
+
+#### 2. Partager avec un lien cloud (CodiMD / HedgeDoc, Dropbox, Drive)
+
+1. Créer ou coller la dictée au format Markdown dans votre service (CodiMD / HedgeDoc, Dropbox, Google Drive…).
+2. Récupérer le **lien de téléchargement** (par exemple : lien `.../download` dans CodiMD).
+3. Dans l’application, mode enseignant → bibliothèque → **\"Partager\"** → **\"Lien cloud\"**.
+4. Coller le lien, vérifier l’aperçu, puis copier l’URL finale proposée.
+5. Envoyer ce lien aux élèves.
+
+**Caractéristiques** :
+
+- Le contenu reste stocké sur votre service (CodiMD, Drive, etc.).
+- Permet de réutiliser des dictées déjà présentes sur micetf.fr/dictee-markdown. [micetf](https://micetf.fr/dictee/)
+
+---
+
+### Ouvrir une dictée avec un lien (élève)
+
+Les élèves n’ont qu’un lien à ouvrir, sans passer par la bibliothèque.
+
+#### 1. Lien encodé (`?share=...`)
+
+1. L’élève clique sur le lien reçu (ou scanne le QR code).
+2. L’application s’ouvre directement en **mode élève** sur la dictée partagée.
+3. L’élève fait la dictée normalement (lecture, saisie, validation, résultats).
+
+**Détails techniques** :
+
+- Le paramètre `?share=...` dans l’URL contient la dictée encodée.
+- La dictée n’est pas enregistrée dans la bibliothèque locale de l’élève.
+
+#### 2. Lien cloud (`?cloud=...`)
+
+1. L’élève clique sur le lien du type :  
+   `https://…/dictee-v0/?cloud=...`
+2. L’application télécharge le fichier Markdown distant (CodiMD / HedgeDoc, Dropbox, Drive…). [micetf](https://micetf.fr/dictee/?tl=fr&titre=Dict%C3%A9e+de+mots+1+-+CP+niveau+1&d%5B1%5D=117%7C110%7C101%7C32%7C109%7C97%7C109%7C105%7C&d%5B2%5D=117%7C110%7C32%7C109%7C117%7C114%7C&d%5B3%5D=117%7C110%7C101%7C32%7C118%7C97%7C99%7C104%7C101%7C&d%5B4%5D=117%7C110%7C32%7C99%7C104%7C101%7C118%7C97%7C108%7C&d%5B5%5D=117%7C110%7C101%7C32%7C102%7C111%7C117%7C114%7C109%7C105%7C&d%5B6%5D=117%7C110%7C32%7C118%7C233%7C108%7C111%7C&d%5B7%5D=117%7C110%7C101%7C32%7C114%7C117%7C99%7C104%7C101%7C&d%5B8%5D=108%7C97%7C32%7C108%7C117%7C110%7C101%7C&d%5B9%5D=117%7C110%7C32%7C108%7C105%7C111%7C110%7C&d%5B10%5D=117%7C110%7C101%7C32%7C109%7C111%7C117%7C99%7C104%7C101%7C&d%5B11%5D=&d%5B12%5D=&d%5B13%5D=&d%5B14%5D=&d%5B15%5D=&d%5B16%5D=&d%5B17%5D=&d%5B18%5D=&d%5B19%5D=&d%5B20%5D=)
+3. Après chargement, la dictée s’ouvre directement en **mode élève**.
+
+En cas de problème, un message d’erreur indique si :
+
+- le lien est invalide,
+- le fichier n’est pas au bon format Markdown,
+- ou le service cloud bloque la requête (CORS).
+
 ## 📥 Import de dictées
 
 ### Depuis fichier local (.md)
