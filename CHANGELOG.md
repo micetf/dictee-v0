@@ -14,7 +14,7 @@ Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/)
 
     - Composant `Navbar.jsx` aligné visuellement sur micetf.fr
     - Lien `MiCetF` vers la page d’accueil du site
-    - Titre de l’outil : « Dictée Markdown »
+    - Titre de l’outil : « Je crée mes dictées – Markdown »
     - Bouton PayPal (don) avec icône cœur
     - Bouton de contact (mail webmaster)
 

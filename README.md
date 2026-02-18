@@ -1,6 +1,6 @@
-# Dictée - V1
+# Je crée mes dictées – Markdown (V0)
 
-Application web pour créer et pratiquer des dictées à l'école primaire (cycles 1 à 3).
+Application web pour créer, partager et pratiquer des dictées à l'école primaire (cycles 1 à 3), compatible avec le format Markdown de micetf.fr.
 
 **Version 0.10** - Février 2026
 

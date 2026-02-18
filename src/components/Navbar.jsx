@@ -49,7 +49,7 @@ export default function Navbar() {
                                     <path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z"></path>
                                 </svg>
                                 <span className="text-white font-semibold text-lg">
-                                    Dictée (V1)
+                                    Je crée mes dictées - Markdown
                                 </span>
                             </div>
 
